@@ -8,18 +8,26 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AppRoutingModule } from './/app-routing.module';
+import { AdministrationComponent } from './administration/administration.component';
+import { PhotosComponent } from './photos/photos.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    AdministrationComponent,
+    PhotosComponent
   ],
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

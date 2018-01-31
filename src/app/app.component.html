@@ -2,17 +2,43 @@
   <h1>Hello {{ user.displayName }}!</h1>
   <button (click)="logout()">Logout</button>
 </div>
+
+
+
+
+
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">
+    <span class="oi oi-globe" title="icon globe" aria-hidden="true"></span> Lolo & Cham</a>
+
+  <!-- Hamburger button in small resolution -->
+  <button class="navbar-toggler" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar content -->
+  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">
+          <span class="oi oi-terminal" title="icon terminal" aria-hidden="true"></span> Administration</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="oi oi-image" title="icon image" aria-hidden="true"></span> Photos</a>
+      </li>
+
+    </ul>
+  </div>
+
+</nav>
+
 <ng-template #showLogin>
   <p>Please login.</p>
   <button (click)="login()">Login with Google</button>
 </ng-template>
-
-<div class="jumbotron">
-  <h1 class="display-4">Hello, world!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </p>
-</div>
