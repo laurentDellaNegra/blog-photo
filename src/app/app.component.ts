@@ -9,6 +9,8 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  public isNavbarCollapsed = false;
   constructor(public afAuth: AngularFireAuth) {
 
   }
