@@ -1,3 +1,32 @@
-<p>
-  navbar works!
-</p>
+<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-primary">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">
+    <span class="oi oi-globe" title="icon globe" aria-hidden="true"></span> Lolo & Cham</a>
+
+  <!-- Hamburger button in small resolution -->
+  <button class="navbar-toggler" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar content -->
+  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/administration">
+          <span class="oi oi-terminal" title="icon terminal" aria-hidden="true"></span> Administration</a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/photos">
+          <span class="oi oi-aperture" title="icon aperture" aria-hidden="true"></span> Photos</a>
+      </li>
+
+    </ul>
+
+    <a class="btn btn-outline-light" routerLinkActive="active" routerLink="/authentication">
+      <span class="oi oi-person"></span> S'identifier</a>
+  </div>
+</nav>

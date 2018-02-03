@@ -12,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { AdministrationComponent } from './administration/administration.component';
 import { PhotosComponent } from './photos/photos.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { PhotosComponent } from './photos/photos.component';
     AppComponent,
     NavbarComponent,
     AdministrationComponent,
-    PhotosComponent
+    PhotosComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
