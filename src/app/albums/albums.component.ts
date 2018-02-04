@@ -10,7 +10,7 @@ import { AlbumsService } from '../services/albums.service';
 export class AlbumsComponent implements OnInit {
 
 
-  private albums: Array<any> = [];
+  public albums: Array<any> = [];
 
   constructor(public albumsService: AlbumsService) { }
 

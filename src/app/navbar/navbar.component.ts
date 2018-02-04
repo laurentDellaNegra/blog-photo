@@ -9,8 +9,8 @@ import { AlbumsService } from '../services/albums.service';
 })
 export class NavbarComponent implements OnInit {
 
-  private isNavbarCollapsed = true;
-  private albums: Array<any> = [];
+  public isNavbarCollapsed = true;
+  public albums: Array<any> = [];
 
   constructor(public albumsService: AlbumsService) { }
 

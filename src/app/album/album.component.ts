@@ -10,7 +10,7 @@ import { AlbumsService } from '../services/albums.service';
 })
 export class AlbumComponent implements OnInit, OnChanges {
 
-  private album: any = {};
+  public album: any = {};
   private sub: any;
 
   constructor(
