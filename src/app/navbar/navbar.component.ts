@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlbumsService } from '../services/albums.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -7,11 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  public isNavbarCollapsed = true;
+  private isNavbarCollapsed = true;
+  private albumsName: Array<string> = [];
 
-  constructor() { }
+  constructor(public albumsService: AlbumsService) { }
 
   ngOnInit() {
+    this.getAlbumsName();
   }
 
+  getAlbumsName(): void {
+    this.albumsService.getAlbums().forEach(album => {
+      this.albumsName.push(album.name);
+    });
+  }
 }

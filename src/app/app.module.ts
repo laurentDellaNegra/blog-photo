@@ -6,22 +6,29 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+// Component
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { AdministrationComponent } from './administration/administration.component';
-import { PhotosComponent } from './photos/photos.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { HomeComponent } from './home/home.component';
+import { AlbumsComponent } from './albums/albums.component';
+import { AlbumComponent } from './albums/album/album.component';
 
+// Services
+import { AlbumsService } from './services/albums.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     AdministrationComponent,
-    PhotosComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    HomeComponent,
+    AlbumsComponent,
+    AlbumComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
     AngularFireAuthModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AlbumsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
