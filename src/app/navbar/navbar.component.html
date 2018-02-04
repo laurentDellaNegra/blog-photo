@@ -16,8 +16,8 @@
     <ul class="navbar-nav mr-auto">
 
       <!-- Dynamic countries -->
-      <li *ngFor="let albumName of albumsName" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/albums/{{albumName}}">{{albumName}}</a>
+      <li *ngFor="let album of albums" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/album/', album.id]">{{album.name}}</a>
       </li>
     </ul>
 

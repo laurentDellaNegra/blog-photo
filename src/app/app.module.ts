@@ -13,9 +13,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { AdministrationComponent } from './administration/administration.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { HomeComponent } from './home/home.component';
 import { AlbumsComponent } from './albums/albums.component';
-import { AlbumComponent } from './albums/album/album.component';
+import { AlbumComponent } from './album/album.component';
 
 // Services
 import { AlbumsService } from './services/albums.service';
@@ -26,7 +25,6 @@ import { AlbumsService } from './services/albums.service';
     NavbarComponent,
     AdministrationComponent,
     AuthenticationComponent,
-    HomeComponent,
     AlbumsComponent,
     AlbumComponent
   ],

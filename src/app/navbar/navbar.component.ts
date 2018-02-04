@@ -10,17 +10,15 @@ import { AlbumsService } from '../services/albums.service';
 export class NavbarComponent implements OnInit {
 
   private isNavbarCollapsed = true;
-  private albumsName: Array<string> = [];
+  private albums: Array<any> = [];
 
   constructor(public albumsService: AlbumsService) { }
 
   ngOnInit() {
-    this.getAlbumsName();
+    this.getAlbums();
   }
 
-  getAlbumsName(): void {
-    this.albumsService.getAlbums().forEach(album => {
-      this.albumsName.push(album.name);
-    });
+  getAlbums(): void {
+    this.albums = this.albumsService.getAlbums();
   }
 }
