@@ -5,13 +5,15 @@ import { AdministrationComponent } from './administration/administration.compone
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './album/album.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/albums', pathMatch: 'full' },
+  { path: 'albums', component: AlbumsComponent },
+  { path: 'album/:id', component: AlbumComponent },
   { path: 'administration', component: AdministrationComponent },
   { path: 'authentication', component: AuthenticationComponent },
-  { path: 'albums', component: AlbumsComponent },
-  { path: 'album/:id', component: AlbumComponent }
+  { path: '', redirectTo: '/albums', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

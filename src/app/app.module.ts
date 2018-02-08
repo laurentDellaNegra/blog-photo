@@ -18,6 +18,7 @@ import { AdministrationComponent } from './administration/administration.compone
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './album/album.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 // Services
 import { AlbumsService } from './services/albums.service';
@@ -26,11 +27,11 @@ import { AlbumsService } from './services/albums.service';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AppRoutingModule
   ],
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import { AlbumsService } from './services/albums.service';
     AdministrationComponent,
     AuthenticationComponent,
     AlbumsComponent,
-    AlbumComponent
+    AlbumComponent,
+    PageNotFoundComponent
   ],
   providers: [AlbumsService],
   bootstrap: [AppComponent]
