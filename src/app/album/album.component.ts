@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,7 @@ import { AlbumsService } from '../services/albums.service';
   templateUrl: './album.component.html',
   styleUrls: ['./album.component.css']
 })
-export class AlbumComponent implements OnInit, OnChanges {
+export class AlbumComponent implements OnInit {
 
   public album$: Observable<any>;
   private sub: any;
@@ -22,21 +22,10 @@ export class AlbumComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    // this.sub = this.route.params.subscribe(params => {
-    //   const id = params['id'];
-    //   this.getAlbum(id);
-    // });
     this.album$ = this.route.paramMap
-    .switchMap((params: ParamMap) =>
-      this.getAlbum(params.get('id'))
-    );
-  }
+      .switchMap((params: ParamMap) => {
+        return this.albumsService.getAlbum(params.get('id'));
 
-  ngOnChanges() {
-    console.log('Updated');
-  }
-
-  getAlbum(id: string) {
-    return this.albumsService.getAlbum(id);
+      });
   }
 }

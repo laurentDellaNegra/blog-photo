@@ -148,13 +148,7 @@ export class AlbumsService {
     return Observable.of(ALBUMS);
   }
 
-  getAlbum(id: string): any {
-    // for (const album of ALBUMS) {
-    //   if (album.id === id) {
-    //     return album;
-    //   }
-    // }
-
+  getAlbum(id: string) {
     return this.getAlbums()
       .map(albums => albums.find(album => album.id === id));
 

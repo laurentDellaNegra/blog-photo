@@ -1,4 +1,7 @@
+import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { AlbumsService } from '../services/albums.service';
 
@@ -10,15 +13,17 @@ import { AlbumsService } from '../services/albums.service';
 export class NavbarComponent implements OnInit {
 
   public isNavbarCollapsed = true;
-  public albums: Array<any> = [];
 
-  constructor(public albumsService: AlbumsService) { }
+  public albums$: Observable<any>;
+
+  constructor(
+    public albumsService: AlbumsService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getAlbums();
-  }
-
-  getAlbums(): void {
-    this.albums = this.albumsService.getAlbums();
+    this.albums$ = this.route.paramMap
+      .switchMap((params: ParamMap) =>
+        this.albumsService.getAlbums()
+      );
   }
 }
