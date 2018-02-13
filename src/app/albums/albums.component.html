@@ -1,0 +1,32 @@
+<section class="jumbotron text-center mb-0">
+  <div class="container">
+    <h1 class="jumbotron-heading">Album de Lolo & Cham</h1>
+    <p class="lead text-muted">Bienvenue sur notre blog photos correspondant à tous nos voyages, c'est génial !!! Neque porro quisquam est qui dolorem
+      ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+  </div>
+</section>
+<div class="py-5 bg-light">
+  <div class="container">
+
+    <div class="row">
+      <div *ngFor="let album of albums$ | async; let i = index" class="col-md-4">
+        <div *ngIf="index % 3 === 0" class="w-100"></div>
+        <div class="card mb-4 box-shadow">
+          <img class="card-img-top" src="http://via.placeholder.com/1300x1000" alt="Responsive image">
+          <div class="card-body">
+            <h6>{{album.name}}</h6>
+            <p class="card-text">{{album.description}}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary" routerLink="/albums/album">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

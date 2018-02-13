@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row justify-content-center align-items-center mt-5">
+
+    <div *ngIf="afAuth.authState | async as user; else showLogin">
+      <h1>Hello {{ user.email }}!</h1>
+      <button class="btn btn-lg btn-block btn-danger" (click)="logout()">Logout</button>
+    </div>
+    <ng-template #showLogin>
+      <form #loginForm="ngForm" (ngSubmit)="login()" class="col-sm-7 col-md-6 col-lg-5 col-xl-4 text-center">
+        <h1 class="h3 mb-3 font-weight-normal">Identifiez vous</h1>
+        <input [(ngModel)]="user.email" id="email" name="email" type="email" class="form-control" placeholder="Adresse email" required
+          #email="ngModel">
+        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+          Email is required
+        </div>
+        <input [(ngModel)]="user.password" id="password" name="password" type="password" class="form-control" placeholder="Mot de passe"
+          required #password="ngModel">
+        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          Password is required
+        </div>
+        <div class="checkbox my-3">
+          <label>
+            <input type="checkbox" value="remember-me"> Mémoriser
+          </label>
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-primary" [disabled]="!loginForm.form.valid">Connexion</button>
+        <div *ngIf="message" class="alert alert-danger">
+          {{message}}</div>
+      </form>
+    </ng-template>
+  </div>
+</div>
