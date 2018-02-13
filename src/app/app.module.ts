@@ -14,14 +14,16 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { AdministrationComponent } from './administration/administration.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
+import { LoginComponent } from './login/login.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './album/album.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AdminModule } from './admin/admin.module';
 
 // Services
 import { AlbumsService } from './services/albums.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   imports: [
@@ -31,18 +33,22 @@ import { AlbumsService } from './services/albums.service';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AdminModule,
     AppRoutingModule
   ],
   declarations: [
     AppComponent,
     NavbarComponent,
-    AdministrationComponent,
-    AuthenticationComponent,
+    LoginComponent,
     AlbumsComponent,
     AlbumComponent,
     PageNotFoundComponent
   ],
-  providers: [AlbumsService],
+  providers: [
+    AlbumsService,
+    AuthGuardService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row justify-content-center align-items-center mt-5">
 
-    <div *ngIf="afAuth.authState | async as user; else showLogin">
+    <div *ngIf="authState | async as user; else showLogin">
       <h1>Hello {{ user.email }}!</h1>
       <button class="btn btn-lg btn-block btn-danger" (click)="logout()">Logout</button>
     </div>
