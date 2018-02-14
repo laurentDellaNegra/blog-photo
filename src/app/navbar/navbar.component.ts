@@ -19,8 +19,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public albumsService: AlbumsService,
-    private route: ActivatedRoute,
-    private authService: AuthService) { }
+    public route: ActivatedRoute,
+    public authService: AuthService) { }
 
   ngOnInit() {
     this.albums$ = this.route.paramMap

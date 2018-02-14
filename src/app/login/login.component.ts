@@ -9,12 +9,12 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  private inputs = {
+  public inputs = {
     email: '',
     password: ''
   };
-  private message = '';
-  private userObs;
+  public message = '';
+  public userObs;
 
   constructor(public authService: AuthService) { }
 
