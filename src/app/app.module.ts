@@ -18,7 +18,6 @@ import { LoginComponent } from './login/login.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './album/album.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AdminModule } from './admin/admin.module';
 
 // Services
 import { AlbumsService } from './services/albums.service';
@@ -33,7 +32,6 @@ import { AuthService } from './services/auth.service';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AdminModule,
     AppRoutingModule
   ],
   declarations: [
@@ -45,9 +43,9 @@ import { AuthService } from './services/auth.service';
     PageNotFoundComponent
   ],
   providers: [
+    AuthService,
     AlbumsService,
     AuthGuardService,
-    AuthService
   ],
   bootstrap: [AppComponent]
 })

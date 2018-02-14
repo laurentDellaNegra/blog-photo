@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -14,7 +15,7 @@ export class AuthService {
   private user: Observable<User>;
   private userDetail: User = null;
 
-  constructor(public angularFireAuth: AngularFireAuth) {
+  constructor(public angularFireAuth: AngularFireAuth, public router: Router) {
     this.user = this.angularFireAuth.authState;
     this.user.subscribe(user => {
       if (user) {
@@ -26,7 +27,14 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password);
+    return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        if (this.redirectUrl) {
+          console.log(this.redirectUrl);
+          this.router.navigate([this.redirectUrl]);
+          this.redirectUrl = '';
+        }
+      });
   }
 
   logout() {
