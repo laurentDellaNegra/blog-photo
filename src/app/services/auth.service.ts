@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { User } from '@firebase/auth-types';
 
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -9,28 +11,37 @@ import * as firebase from 'firebase/app';
 export class AuthService {
 
   public redirectUrl: string;
-  public isLoggedIn = false;
+  private user: Observable<User>;
+  private userDetail: User = null;
 
-  constructor(public angularFireAuth: AngularFireAuth) { }
+  constructor(public angularFireAuth: AngularFireAuth) {
+    this.user = this.angularFireAuth.authState;
+    this.user.subscribe(user => {
+      if (user) {
+        this.userDetail = user;
+      } else {
+        this.userDetail = null;
+      }
+    });
+  }
 
   login(email: string, password: string) {
-    return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.isLoggedIn = true;
-        return 'Logged in';
-      })
-      .catch(error => {
-        this.isLoggedIn = false;
-        return `Error code: ${error.code} - ${error.message}`;
-      });
+    return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
   logout() {
     this.angularFireAuth.auth.signOut();
-    this.isLoggedIn = false;
   }
 
-  getAuthState(): Observable<User> {
-    return this.angularFireAuth.authState;
+  isLoggedIn() {
+    return (this.userDetail !== null);
+  }
+
+  isAuthorized() {
+    return this.isLoggedIn();
+  }
+
+  getUser() {
+    return this.user;
   }
 }

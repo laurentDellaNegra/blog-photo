@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from './user';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,20 +9,23 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  private user: User = new User('', '');
+  private inputs = {
+    email: '',
+    password: ''
+  };
   private message = '';
-  private authState;
+  private userObs;
 
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
-    this.authState = this.authService.getAuthState();
+    this.userObs = this.authService.getUser();
   }
 
   login() {
-    this.authService.login(this.user.email, this.user.password)
-      .then((message) => {
-        this.message = message;
+    this.authService.login(this.inputs.email, this.inputs.password)
+      .then(() => {
+        this.message = '';
       })
       .catch(error => {
         this.message = `Error code: ${error.code} - ${error.message}`;
