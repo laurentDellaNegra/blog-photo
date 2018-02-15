@@ -12,12 +12,12 @@ import * as firebase from 'firebase/app';
 export class AuthService {
 
   public redirectUrl: string;
-  private user: Observable<User>;
+  private userObs: Observable<User>;
   private userDetail: User = null;
 
   constructor(public angularFireAuth: AngularFireAuth, public router: Router) {
-    this.user = this.angularFireAuth.authState;
-    this.user.subscribe(user => {
+    this.userObs = this.angularFireAuth.authState;
+    this.userObs.subscribe(user => {
       if (user) {
         this.userDetail = user;
       } else {
@@ -49,7 +49,7 @@ export class AuthService {
     return this.isLoggedIn();
   }
 
-  getUser() {
-    return this.user;
+  getUser(): Observable<User> {
+    return this.userObs;
   }
 }
