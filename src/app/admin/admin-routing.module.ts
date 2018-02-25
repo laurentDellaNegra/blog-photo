@@ -21,7 +21,8 @@ const adminRoutes: Routes = [
           { path: 'albums', component: AlbumsComponent },
           { path: 'album/:id', component: AlbumComponent },
           { path: 'user', component: UserComponent },
-          { path: '', component: DashboardComponent }
+          { path: '', component: AlbumsComponent }
+          // { path: '', component: DashboardComponent }
         ]
       }
     ]

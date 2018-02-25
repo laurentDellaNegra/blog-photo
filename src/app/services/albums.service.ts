@@ -3,11 +3,14 @@ import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { Album } from '../model/Album';
+import { Photo } from '../model/Photo';
+
 const ALBUMS = [
   {
     id: 'madagascar',
     name: 'Madagascar',
-    description: 'Lorem ipsum dolor sit amet, pro eu magna epicuri, dicunt bonorum quaestio cu his. Ei has nostrud dolorem conclusionemque, cu qui eius iusto utroque.',
+    description: 'No meratius id ius. Parteue no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.',
     photos: [
       {
         name: 'toto',
@@ -26,7 +29,7 @@ const ALBUMS = [
   {
     id: 'bali',
     name: 'Bali',
-    description: 'Nullam iuvaret no quo, nec in rebum electram, ad veritus atomorum splendide pro. Nobis graeco sententiae ad quo, oratio denique nec in, mentitum placerat est ex.',
+    description: 'No meratius id ius. Parteue no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.',
     photos: [
       {
         name: 'toto',
@@ -121,7 +124,7 @@ const ALBUMS = [
   {
     id: 'milan',
     name: 'Milan',
-    description: 'No mea mucius dolorum postulant, reque eripuit neglegentur per et, mazim legimus moderatius id ius. Partem insolens vix id, te cum affert disputando. Reprimique signiferumque no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.',
+    description: 'No meratius id ius. Parteue no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.',
     photos: [
       {
         name: 'toto',
@@ -144,13 +147,25 @@ export class AlbumsService {
 
   constructor() { }
 
-  getAlbums() {
+  getAlbums(): Observable<Array<Album>> {
     return Observable.of(ALBUMS);
   }
 
-  getAlbum(id: string) {
+  getAlbum(id: string): Observable<Album> {
     return this.getAlbums()
       .map(albums => albums.find(album => album.id === id));
 
+  }
+
+  // Admin feature, move this
+  addAlbum(name: string): void {
+    const album = new Album(name);
+    ALBUMS.push(album);
+  }
+
+  deleteAlbum(id): void {
+    if (id > -1) {
+      ALBUMS.splice(id, 1);
+    }
   }
 }

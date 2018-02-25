@@ -1,28 +1,10 @@
 <div class="container">
   <div class="row">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Home</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="#">Library</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">Data</li>
-      </ol>
-    </nav>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="..." aria-label="Rechercher">
-        <div class="input-group-append">
-          <span class="input-group-text" id="basic-addon2">Rechercher</span>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <button type="button" class="btn btn-primary">Create album</button>
+    <div class="col mb-3">
+      <button type="button" class="btn btn-success" (click)="addAlbum(addAlbumModalContent)">
+        <span class="oi oi-plus">&nbsp;&nbsp;</span>Create album</button>
+      &nbsp;
+      <code>{{closeResult}}</code>
     </div>
   </div>
   <div class="row">
@@ -30,31 +12,64 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Published Date</th>
-          <th scope="col">Images</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Date de publication</th>
+          <th scope="col">Nombre de photos</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
+        <tr *ngFor="let album of albums$ | async; index as i">
+          <th scope="row">{{i}}</th>
+          <td>{{album.name}}</td>
+          <td>Aujourd'hui</td>
+          <td>{{album.photos.length}}</td>
+          <td>
+            <button type="button" class="btn btn-info" [routerLink]="['/admin/album/', album.id]">
+              <span class="oi oi-pencil"></span>
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteAlbum(i, album.name, deleteAlbumModalContent)">
+              <span class="oi oi-trash"></span>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+<!-- MODAL: Add an album -->
+<ng-template #addAlbumModalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Ajouter un album</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <input [(ngModel)]="newAlbumName" id="inputAlbumName" name="inputAlbumName" type="text" class="form-control" placeholder="Nom de l'album"
+      required>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="c('Close click')">Ajouter</button>
+  </div>
+</ng-template>
+
+<!-- MODAL: Delete an album -->
+<ng-template #deleteAlbumModalContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Supprimer l'album {{albumNameToDelete}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Êtes-vous sûr de vouloir supprimer définitivement cet album ?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="c('Close click')">Supprimer</button>
+  </div>
+</ng-template>

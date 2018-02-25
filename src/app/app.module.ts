@@ -13,7 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './album/album.component';
@@ -23,6 +23,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AlbumsService } from './services/albums.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
+
+// Model
+import { Album } from './model/Album';
+import { Photo } from './model/Photo';
 
 @NgModule({
   imports: [
