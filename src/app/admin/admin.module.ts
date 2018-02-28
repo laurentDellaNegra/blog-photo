@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
 
-import { AdminRoutingModule } from './admin-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { UserComponent } from './user/user.component';
-import { AlbumComponent } from './album/album.component';
+import { AlbumDetailComponent } from './album-detail/album-detail.component';
+import { AdminRoutingModule } from './admin-routing.module';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { AlbumComponent } from './album/album.component';
     DashboardComponent,
     AlbumsComponent,
     UserComponent,
-    AlbumComponent
+    AlbumDetailComponent
   ]
 })
 export class AdminModule { }
