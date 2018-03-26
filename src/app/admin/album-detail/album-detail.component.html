@@ -17,9 +17,23 @@
 
     <div class="form-group">
       <label for="inputFile">Photos</label>
-      <input type="file" class="form-control-file" id="inputFile" (change)="uploadFile($event)" />
-      <div>{{ uploadPercent | async }}</div>
-      <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="inputFile" (change)="uploadFile($event)" accept=".png,.jpg" multiple/>
+        <label class="custom-file-label" for="inputFile">Choisissez une photo...</label>
+      </div>
+      <progress style="width:100%" max="100" [value]="(uploadPercent | async)"></progress>
+      <div *ngIf="downloadURL | async">
+        <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+        <img [src]="downloadURL | async" style="width:150px;" alt="The image uploaded">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Gallerie</label>
+      <div *ngFor="let img of imageList | async">
+        <img [src]="img.downloadURL | async" style="width:150px;">
+        <button (click)="delete(img)" style="position:absolute;top:2px;right:2px;">[x]</button>
+      </div>
     </div>
 
     <button type="button" class="btn btn-success float-right" (click)="save()">
