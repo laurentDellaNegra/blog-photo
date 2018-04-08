@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireStorage } from 'angularfire2/storage';
 
 import { Album } from '../../model/Album';
+import { UploadService } from '../shared/upload.service';
+import { Upload } from '../shared/upload';
 
 interface Image {
   path: string;
@@ -20,14 +22,19 @@ interface Image {
 export class AlbumDetailComponent implements OnInit {
 
   album: Album;
-  uploadPercent: Observable<number>;
+  uploadPercentObservable: Observable<number>;
+  uploadPercent: number;
   downloadURL: Observable<string>;
   imageList: Observable<Image[]>;
+  isUploading = false;
+  selectedFiles: FileList;
+  currentUpload: Upload;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private storage: AngularFireStorage) { }
+    private storage: AngularFireStorage,
+    private uploadService: UploadService) { }
 
   ngOnInit() {
     this.route.data.subscribe((data: { album: Album }) => {
@@ -35,25 +42,44 @@ export class AlbumDetailComponent implements OnInit {
     });
   }
 
-  uploadFile(event) {
-    // create a random id
-    const randomId = Math.random().toString(36).substring(2);
+  detectFiles(event) {
+    this.selectedFiles = event.target.files;
+  }
 
-    // create a reference to the storage bucket location
-    const ref = this.storage.ref(randomId);
+  upload() {
+    if (this.selectedFiles.length > 1) {
+      this.uploadMulti();
+    } else {
+      this.uploadSingle(0);
+    }
+  }
 
-    const file = event.target.files[0];
-    const filePath = 'name-your-file-path-here';
-    const task = this.storage.upload(filePath, file);
+  uploadSingle(indexFile) {
+    const file = this.selectedFiles.item(indexFile);
+    this.currentUpload = new Upload(file);
+    this.isUploading = true;
+    const task = this.uploadService.pushUpload(this.currentUpload);
 
     // observe percentage changes
-    this.uploadPercent = task.percentageChanges();
+    this.uploadPercentObservable = task.percentageChanges();
+    this.uploadPercentObservable.subscribe({
+      next(nb) { this.uploadPercent = nb; },
+      complete() { this.isUploading = false; }
+    });
+
     // get notified when the download URL is available
     this.downloadURL = task.downloadURL();
   }
 
-  save() {
+  uploadMulti() {
+    const files = this.selectedFiles;
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      this.uploadSingle(i);
+    }
+  }
 
+  save() {
+    this.uploadService.getImages();
   }
 
 }

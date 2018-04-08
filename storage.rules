@@ -1,21 +1,8 @@
+// Only authenticated users can read or write to the bucket
 service firebase.storage {
   match /b/{bucket}/o {
-    match /images {
-
-     // Cascade read to any image type at any path
-     match /{allImages=**} {
-       allow read;
-     }
-
-     // Allow write files to the path "images/*", subject to the constraints:
-     // 1) The user is authenticated
-     // 2) File is less than 5MB
-     // 3) Content type is an image
-     match /{imageId} {
-       allow write: if request.auth!=null
-                    && request.resource.size < 5 * 1024 * 1024
-                    && request.resource.contentType.matches('image/.*');
-     }
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
     }
   }
 }
