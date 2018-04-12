@@ -22,7 +22,10 @@ export class UploadService {
     const filePath = `${this.basePath}/${randomId}`;
     const task = this.angularFireStorage.upload(filePath, upload.file);
     task
-      .then(() => this.saveFileData(upload))
+      .then(() => {
+        this.saveFileData(upload);
+        console.log(upload);
+      })
       .catch(error => console.log(error));
 
     return task;
@@ -37,7 +40,8 @@ export class UploadService {
    * @param upload
    */
   private saveFileData(upload: Upload) {
-    this.angularFireDatabase.list(`${this.basePath}/`).push(upload);
+    // this.angularFireDatabase.list(`${this.basePath}/`).push(upload);
+    this.angularFireDatabase.list('images').push(upload);
   }
 
   /**

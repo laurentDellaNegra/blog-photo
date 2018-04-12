@@ -1,0 +1,137 @@
+{
+  "albums": {
+    "madagascar": {
+      "id": "madagascar",
+      "name": "Madagascar",
+      "description": "No meratius id ius. Parteue no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    },
+    "bali": {
+      "id": "bali",
+      "name": "Bali",
+      "description": "No meratius id ius. Parteue no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    },
+    "australie": {
+      "id": "australie",
+      "name": "Australie",
+      "description": "Ei qui tantas fuisset detracto, facer maiestatis mei ne.",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    },
+    "shanghai": {
+      "id": "shanghai",
+      "name": "Shanghai",
+      "description": "Mei deserunt disputationi vituperatoribus at, et mea dicunt euismod. Et mea malorum voluptatibus.",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    },
+    "amsterdam": {
+      "id": "amsterdam",
+      "name": "Amsterdam",
+      "description": "In omnesque consetetur mea, cu quo pertinax comprehensam, etiam praesent mei ea. ",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    },
+    "madrid": {
+      "id": "madrid",
+      "name": "Madrid",
+      "description": "Sed dico dictas oportere no.",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    },
+    "milan": {
+      "id": "milan",
+      "name": "Milan",
+      "description": "No meratius id ius. Parteue no nam. Iusto exerci iuvaret eos ne. Mea atqui molestiae et, no sit iudicabit intellegebat.",
+      "photos": [
+        {
+          "name": "toto",
+          "url": "toto"
+        },
+        {
+          "name": "toto2",
+          "url": "toto2"
+        },
+        {
+          "name": "toto3",
+          "url": "toto3"
+        }
+      ]
+    }
+  }
+}
