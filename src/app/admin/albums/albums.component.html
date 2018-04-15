@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let album of albums$ | async; index as i">
-          <th scope="row">{{album | json}}</th>
+          <th scope="row">{{i}}</th>
           <td>{{album.name}}</td>
           <td>Aujourd'hui</td>
           <td>{{album.photos?.length}}</td>

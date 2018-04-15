@@ -26,10 +26,11 @@ export class AlbumsService {
   // Admin feature, move this
   addAlbum(name: string): void {
     const album = new Album(name);
-    this.db.list<Album>('albums').push(album);
+    // this.db.list<Album>('albums').push(album);
+    this.db.list('album').update(album.id, album);
   }
 
   deleteAlbum(id): void {
-      this.db.list<Album>('albums').remove(id + '');
+    this.db.list<Album>('albums').remove(id + '');
   }
 }
