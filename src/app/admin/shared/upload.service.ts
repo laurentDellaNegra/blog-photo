@@ -6,7 +6,7 @@ import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage'
 @Injectable()
 export class UploadService {
 
-  constructor(private angularFireDatabase: AngularFireDatabase, private angularFireStorage: AngularFireStorage) { }
+  constructor(private db: AngularFireDatabase, private angularFireStorage: AngularFireStorage) { }
 
   private basePath = '/images';
   uploads: AngularFireList<Upload[]>;
@@ -22,8 +22,8 @@ export class UploadService {
     const filePath = `${this.basePath}/${randomId}`;
     const task = this.angularFireStorage.upload(filePath, upload.file);
     task
-      .then(() => {
-        this.saveFileData(upload);
+      .then((resp: any) => {
+        this.saveFileData('toto', resp.metadata);
         console.log(upload);
       })
       .catch(error => console.log(error));
@@ -39,9 +39,9 @@ export class UploadService {
    * Writes the file details to the realtime db
    * @param upload
    */
-  private saveFileData(upload: Upload) {
+  private saveFileData(albumKey: string, metadata) {
     // this.angularFireDatabase.list(`${this.basePath}/`).push(upload);
-    this.angularFireDatabase.list('images').push(upload);
+    this.db.list('images').update(albumKey, metadata);
   }
 
   /**
@@ -61,7 +61,7 @@ export class UploadService {
    * @param key
    */
   private deleteFileData(key: string) {
-    return this.angularFireDatabase.list(`${this.basePath}/`).remove(key);
+    return this.db.list(`${this.basePath}/`).remove(key);
   }
 
   /**

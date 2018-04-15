@@ -27,7 +27,7 @@ export class AlbumsService {
   addAlbum(name: string): void {
     const album = new Album(name);
     // this.db.list<Album>('albums').push(album);
-    this.db.list('album').update(album.id, album);
+    this.db.list('albums').update(album.id, album);
   }
 
   deleteAlbum(id): void {

@@ -64,7 +64,10 @@ export class AlbumDetailComponent implements OnInit {
     this.uploadPercentObservable = task.percentageChanges();
     this.uploadPercentObservable.subscribe({
       next(nb) { this.uploadPercent = nb; },
-      complete() { this.isUploading = false; }
+      complete() {
+        this.isUploading = false;
+
+       }
     });
 
     // get notified when the download URL is available
