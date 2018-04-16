@@ -2,29 +2,40 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Upload } from './upload';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { ImageMetadata } from './ImageMetadata';
 
 @Injectable()
 export class UploadService {
 
   constructor(private db: AngularFireDatabase, private angularFireStorage: AngularFireStorage) { }
 
-  private basePath = '/images';
+  private directory = '/images';
   uploads: AngularFireList<Upload[]>;
 
   /**
    *
    * @param upload
    */
-  pushUpload(upload: Upload): AngularFireUploadTask {
+  pushUpload(upload: Upload, subDirectory: string): AngularFireUploadTask {
 
     // create a random id
     const randomId = Math.random().toString(36).substring(2);
-    const filePath = `${this.basePath}/${randomId}`;
+    const filePath = `${this.directory}/${subDirectory}/${randomId}`;
     const task = this.angularFireStorage.upload(filePath, upload.file);
     task
       .then((resp: any) => {
-        this.saveFileData('toto', resp.metadata);
-        console.log(upload);
+        const metadata = new ImageMetadata();
+        metadata.name = resp.metadata.name;
+        metadata.url = resp.metadata.downloadURLs[0];
+        metadata.contentType = resp.metadata.contentType;
+        metadata.type = resp.metadata.type;
+        metadata.fullPath = resp.metadata.fullPath;
+        metadata.size = resp.metadata.size;
+        metadata.bucket = resp.metadata.bucket;
+        metadata.createdAt = resp.metadata.timeCreated;
+        metadata.updatedAt = resp.metadata.updated;
+        this.saveFileData(subDirectory, metadata);
+        console.log(metadata);
       })
       .catch(error => console.log(error));
 
@@ -41,7 +52,8 @@ export class UploadService {
    */
   private saveFileData(albumKey: string, metadata) {
     // this.angularFireDatabase.list(`${this.basePath}/`).push(upload);
-    this.db.list('images').update(albumKey, metadata);
+    this.db.list('images').update(`${albumKey}/${metadata.name}`, metadata);
+    console.log('Realtime Updated');
   }
 
   /**
@@ -61,7 +73,7 @@ export class UploadService {
    * @param key
    */
   private deleteFileData(key: string) {
-    return this.db.list(`${this.basePath}/`).remove(key);
+    return this.db.list(`${this.directory}/`).remove(key);
   }
 
   /**
@@ -71,6 +83,6 @@ export class UploadService {
    */
   private deleteFileStorage(name: string) {
     const storageRef = this.angularFireStorage.storage.ref();
-    storageRef.child(`${this.basePath}/${name}`).delete();
+    storageRef.child(`${this.directory}/${name}`).delete();
   }
 }

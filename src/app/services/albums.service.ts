@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Album } from '../model/Album';
-import { Photo } from '../model/Photo';
+import { Image } from '../model/Image';
 
 @Injectable()
 export class AlbumsService {
@@ -32,5 +32,15 @@ export class AlbumsService {
 
   deleteAlbum(id): void {
     this.db.list<Album>('albums').remove(id + '');
+  }
+
+  getImages(): Observable<Array<Image>> {
+    return this.db.list<Image>('images/toto').valueChanges();
+  }
+
+  getImage(name: string): Observable<Image> {
+    return this.getImages()
+      .map(images => images.find(image => image.name === name));
+
   }
 }

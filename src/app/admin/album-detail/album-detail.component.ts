@@ -7,12 +7,15 @@ import { Album } from '../../model/Album';
 import { UploadService } from '../shared/upload.service';
 import { Upload } from '../shared/upload';
 
-interface Image {
-  path: string;
-  filename: string;
-  downloadUrl?: string;
-  $key?: string;
-}
+import { AlbumsService } from '../../services/albums.service';
+import { Image } from "../../model/Image";
+
+// interface Image {
+//   path: string;
+//   filename: string;
+//   downloadUrl?: string;
+//   $key?: string;
+// }
 
 @Component({
   selector: 'app-album-detail',
@@ -34,12 +37,16 @@ export class AlbumDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private storage: AngularFireStorage,
-    private uploadService: UploadService) { }
+    private uploadService: UploadService,
+    private albumsService: AlbumsService) { }
 
   ngOnInit() {
     this.route.data.subscribe((data: { album: Album }) => {
       this.album = { ...data.album };
     });
+
+    this.imageList = this.albumsService.getImages();
+    console.log(this.imageList);
   }
 
   detectFiles(event) {
@@ -54,11 +61,11 @@ export class AlbumDetailComponent implements OnInit {
     }
   }
 
-  uploadSingle(indexFile) {
+  uploadSingle(indexFile): void {
     const file = this.selectedFiles.item(indexFile);
     this.currentUpload = new Upload(file);
     this.isUploading = true;
-    const task = this.uploadService.pushUpload(this.currentUpload);
+    const task = this.uploadService.pushUpload(this.currentUpload, this.album.id);
 
     // observe percentage changes
     this.uploadPercentObservable = task.percentageChanges();
@@ -67,7 +74,7 @@ export class AlbumDetailComponent implements OnInit {
       complete() {
         this.isUploading = false;
 
-       }
+      }
     });
 
     // get notified when the download URL is available

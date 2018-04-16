@@ -26,7 +26,7 @@ import { AuthService } from './services/auth.service';
 
 // Model
 import { Album } from './model/Album';
-import { Photo } from './model/Photo';
+import { Image } from './model/Image';
 
 @NgModule({
   imports: [

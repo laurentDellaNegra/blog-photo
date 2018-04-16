@@ -1,14 +1,14 @@
-import { Photo } from './Photo';
+import { Image } from './Image';
 
 export class Album {
   constructor(name: string) {
     this.id = name.trim().replace(/\s+/g, '-').toLowerCase();
     this.name = name;
     this.description = 'Saisissez une description pour cet album';
-    this.photos = new Array<Photo>();
+    this.images = new Array<Image>();
   }
   id: string;
   name: string;
   description: string;
-  photos: Array<Photo>;
+  images: Array<Image>;
 }
