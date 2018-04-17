@@ -4,6 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
 import { AlbumsService } from '../services/albums.service';
+import { Image } from '../model/Image';
 
 @Component({
   selector: 'app-album',
@@ -13,6 +14,7 @@ import { AlbumsService } from '../services/albums.service';
 export class AlbumComponent implements OnInit {
 
   public album$: Observable<any>;
+  imageList$: Observable<Image[]>;
   private sub: any;
 
   constructor(
@@ -25,7 +27,9 @@ export class AlbumComponent implements OnInit {
     this.album$ = this.route.paramMap
       .switchMap((params: ParamMap) => {
         return this.albumsService.getAlbum(params.get('id'));
-
       });
+
+
+    this.imageList$ = this.albumsService.getImages();
   }
 }
