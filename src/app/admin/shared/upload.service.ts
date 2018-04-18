@@ -16,7 +16,7 @@ export class UploadService {
    *
    * @param upload
    */
-  pushUpload(upload: Upload, subDirectory: string): any {
+  pushUploadWithFormat(upload: Upload, subDirectory: string): any {
 
     // create a random id
     const randomId = Math.random().toString(36).substring(2);
@@ -30,7 +30,7 @@ export class UploadService {
         return this.urltoFile(file64Compressed, randomId, 'image/jpeg')
       })
       .then(function (file) {
-        this.angularFireStorage.upload(filePath, file);
+        return this.angularFireStorage.upload(filePath, file);
       })
       .then((resp: any) => {
         const metadata = new ImageMetadata();
@@ -46,6 +46,29 @@ export class UploadService {
         this.saveFileData(subDirectory, metadata);
       })
       .catch(error => console.log(error));
+  }
+
+  pushUpload(upload: Upload, subDirectory: string): any {
+
+    // create a random id
+    const randomId = Math.random().toString(36).substring(2);
+    const filePath = `${this.directory}/${subDirectory}/${randomId}`;
+    const task = this.angularFireStorage.upload(filePath, upload.file);
+    task.then((resp: any) => {
+      const metadata = new ImageMetadata();
+      metadata.name = resp.metadata.name;
+      metadata.url = resp.metadata.downloadURLs[0];
+      metadata.contentType = resp.metadata.contentType;
+      metadata.type = resp.metadata.type;
+      metadata.fullPath = resp.metadata.fullPath;
+      metadata.size = resp.metadata.size;
+      metadata.bucket = resp.metadata.bucket;
+      metadata.createdAt = resp.metadata.timeCreated;
+      metadata.updatedAt = resp.metadata.updated;
+      this.saveFileData(subDirectory, metadata);
+    })
+      .catch(error => console.log(error));
+    return task;
   }
 
   getImages() {
