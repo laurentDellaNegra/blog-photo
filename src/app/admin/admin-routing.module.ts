@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import { UserComponent } from './user/user.component';
-import { AuthGuardService } from '../services/auth-guard.service';
+import { AuthGuardService } from '../shared/auth-guard.service';
 
 import { AlbumDetailResolver } from './album-detail/album-detail-resolver.service';
 

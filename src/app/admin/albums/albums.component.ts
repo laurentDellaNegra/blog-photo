@@ -3,7 +3,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { AlbumsService } from '../../services/albums.service';
+import { AlbumsAdminService } from '../shared/albums-admin.service';
+import { AlbumsService } from '../../shared/albums.service';
 
 @Component({
   selector: 'app-albums',
@@ -20,6 +21,7 @@ export class AlbumsComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public albumsService: AlbumsService,
+    public albumsAdminService: AlbumsAdminService,
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class AlbumsComponent implements OnInit {
   addAlbum(content): void {
     this.openModal(content).then((result) => {
       // TODO: add
-      this.albumsService.addAlbum(this.newAlbumName);
+      this.albumsAdminService.addAlbum(this.newAlbumName);
 
       this.closeResult = `Album aoujté: ${this.newAlbumName}`;
       this.newAlbumName = '';
@@ -47,7 +49,7 @@ export class AlbumsComponent implements OnInit {
     this.albumNameToDelete = name;
     this.openModal(content).then((result) => {
       // TODO: delete
-      this.albumsService.deleteAlbum(id);
+      this.albumsAdminService.deleteAlbum(id);
 
       this.closeResult = `Album supprimé: ${this.albumNameToDelete}`;
       this.albumNameToDelete = '';

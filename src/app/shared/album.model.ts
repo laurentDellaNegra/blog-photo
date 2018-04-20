@@ -1,4 +1,4 @@
-import { Image } from './Image';
+import { Image } from './image.model';
 
 export class Album {
   constructor(name: string) {

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { AlbumsService } from '../services/albums.service';
+import { AlbumsService } from '../shared/albums.service';
 
 @Component({
   selector: 'app-albums',

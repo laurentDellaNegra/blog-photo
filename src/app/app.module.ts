@@ -20,13 +20,9 @@ import { AlbumComponent } from './album/album.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 // Services
-import { AlbumsService } from './services/albums.service';
-import { AuthGuardService } from './services/auth-guard.service';
-import { AuthService } from './services/auth.service';
-
-// Model
-import { Album } from './model/Album';
-import { Image } from './model/Image';
+import { AlbumsService } from './shared/albums.service';
+import { AuthGuardService } from './shared/auth-guard.service';
+import { AuthService } from './shared/auth.service';
 
 @NgModule({
   imports: [

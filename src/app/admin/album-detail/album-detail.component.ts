@@ -3,19 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireStorage } from 'angularfire2/storage';
 
-import { Album } from '../../model/Album';
+import { Album } from '../../shared/album.model';
+import { Image } from '../../shared/image.model';
 import { UploadService } from '../shared/upload.service';
-import { Upload } from '../shared/upload';
+import { Upload } from '../shared/upload.model';
 
-import { AlbumsService } from '../../services/albums.service';
-import { Image } from "../../model/Image";
-
-// interface Image {
-//   path: string;
-//   filename: string;
-//   downloadUrl?: string;
-//   $key?: string;
-// }
+import { AlbumsService } from '../../shared/albums.service';
 
 @Component({
   selector: 'app-album-detail',
@@ -46,7 +39,6 @@ export class AlbumDetailComponent implements OnInit {
     });
 
     this.imageList = this.albumsService.getImages();
-    console.log(this.imageList);
   }
 
   detectFiles(event) {
@@ -89,7 +81,6 @@ export class AlbumDetailComponent implements OnInit {
   }
 
   save() {
-    this.uploadService.getImages();
   }
 
 }

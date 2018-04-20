@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-import { Album } from '../model/Album';
-import { Image } from '../model/Image';
+import { Album } from './album.model';
+import { Image } from './image.model';
 
 @Injectable()
 export class AlbumsService {
@@ -21,17 +21,6 @@ export class AlbumsService {
     return this.getAlbums()
       .map(albums => albums.find(album => album.id === id));
 
-  }
-
-  // Admin feature, move this
-  addAlbum(name: string): void {
-    const album = new Album(name);
-    // this.db.list<Album>('albums').push(album);
-    this.db.list('albums').update(album.id, album);
-  }
-
-  deleteAlbum(id): void {
-    this.db.list<Album>('albums').remove(id + '');
   }
 
   getImages(): Observable<Array<Image>> {

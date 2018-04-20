@@ -3,8 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { AlbumsService } from '../services/albums.service';
-import { AuthService } from '../services/auth.service';
+import { AlbumsService } from '../shared/albums.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-navbar',

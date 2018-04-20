@@ -7,9 +7,8 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 
-// TODO: use admin service
-import { AlbumsService } from '../../services/albums.service';
-import { Album } from '../../model/Album';
+import { AlbumsService } from '../../shared/albums.service';
+import { Album } from '../../shared/album.model';
 
 @Injectable()
 export class AlbumDetailResolver implements Resolve<Album> {
