@@ -24,14 +24,14 @@
           <th scope="row">{{i}}</th>
           <td>{{album.name}}</td>
           <td>Aujourd'hui</td>
-          <td>{{album.photos?.length}}</td>
+          <td>{{album.images?.length}}</td>
           <td>
             <button type="button" class="btn btn-info" [routerLink]="['/admin/album-detail/', album.id]">
               <span class="oi oi-pencil"></span>
             </button>
           </td>
           <td>
-            <button type="button" class="btn btn-danger" (click)="deleteAlbum(i, album.name, deleteAlbumModalContent)">
+            <button type="button" class="btn btn-danger" (click)="deleteAlbum(i, album, deleteAlbumModalContent)">
               <span class="oi oi-trash"></span>
             </button>
           </td>

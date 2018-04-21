@@ -10,11 +10,12 @@ import { Image } from './image.model';
 @Injectable()
 export class AlbumsService {
 
+  private albumDirectory = '/albums';
+
   constructor(private db: AngularFireDatabase) { }
 
   getAlbums(): Observable<Array<Album>> {
-    console.log(this.db.list<Album>('albums').valueChanges());
-    return this.db.list<Album>('albums').valueChanges();
+    return this.db.list<Album>(this.albumDirectory).valueChanges();
   }
 
   getAlbum(id: string): Observable<Album> {
@@ -23,12 +24,12 @@ export class AlbumsService {
 
   }
 
-  getImages(): Observable<Array<Image>> {
-    return this.db.list<Image>('images/toto').valueChanges();
+  getImagesInDB(albumName): Observable<Image[]> {
+    return this.db.list<Image>(`${this.albumDirectory}/${albumName}/images`).valueChanges();
   }
 
-  getImage(name: string): Observable<Image> {
-    return this.getImages()
+  getImageInDB(albumName: string, name: string): Observable<Image> {
+    return this.getImagesInDB(albumName)
       .map(images => images.find(image => image.name === name));
 
   }

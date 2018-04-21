@@ -6,6 +6,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumsAdminService } from '../shared/albums-admin.service';
 import { AlbumsService } from '../../shared/albums.service';
 
+import { Album } from '../../shared/album.model';
+
 @Component({
   selector: 'app-albums',
   templateUrl: './albums.component.html',
@@ -45,19 +47,21 @@ export class AlbumsComponent implements OnInit {
     });
   }
 
-  deleteAlbum(id, name, content): void {
-    this.albumNameToDelete = name;
-    this.openModal(content).then((result) => {
-      // TODO: delete
-      this.albumsAdminService.deleteAlbum(id);
-
-      this.closeResult = `Album supprimé: ${this.albumNameToDelete}`;
-      this.albumNameToDelete = '';
-    }).catch((reason) => {
-      console.log('Dismissed ' + this.getDismissReason(reason));
-      this.closeResult = '';
-      this.albumNameToDelete = '';
-    });
+  deleteAlbum(id: number, album: Album, content: any): void {
+    this.albumNameToDelete = album.name;
+    this.openModal(content)
+      .then((result) => {
+        return this.albumsAdminService.deleteAlbum(album);
+      })
+      .then(() => {
+        this.closeResult = `Album supprimé: ${this.albumNameToDelete}`;
+        this.albumNameToDelete = '';
+      })
+      .catch((reason) => {
+        console.log('Dismissed ' + this.getDismissReason(reason));
+        this.closeResult = '';
+        this.albumNameToDelete = '';
+      });
   }
 
   private openModal(content): Promise<any> {

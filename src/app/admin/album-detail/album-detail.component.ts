@@ -9,6 +9,7 @@ import { UploadService } from '../shared/upload.service';
 import { Upload } from '../shared/upload.model';
 
 import { AlbumsService } from '../../shared/albums.service';
+import { AlbumsAdminService } from '../shared/albums-admin.service';
 
 @Component({
   selector: 'app-album-detail',
@@ -18,10 +19,10 @@ import { AlbumsService } from '../../shared/albums.service';
 export class AlbumDetailComponent implements OnInit {
 
   album: Album;
-  uploadPercentObservable: Observable<number>;
+  uploadPercentObservable$: Observable<number>;
   uploadPercent: number;
-  downloadURL: Observable<string>;
-  imageList: Observable<Image[]>;
+  downloadURL$: Observable<string>;
+  imageList$: Observable<Image[]>;
   isUploading = false;
   selectedFiles: FileList;
   currentUpload: Upload;
@@ -31,21 +32,20 @@ export class AlbumDetailComponent implements OnInit {
     private router: Router,
     private storage: AngularFireStorage,
     private uploadService: UploadService,
-    private albumsService: AlbumsService) { }
+    private albumsService: AlbumsService,
+    private albumsAdminService: AlbumsAdminService
+  ) { }
 
   ngOnInit() {
     this.route.data.subscribe((data: { album: Album }) => {
       this.album = { ...data.album };
+      this.imageList$ = this.albumsService.getImagesInDB(this.album.name);
     });
 
-    this.imageList = this.albumsService.getImages();
   }
 
-  detectFiles(event) {
+  upload(event) {
     this.selectedFiles = event.target.files;
-  }
-
-  upload() {
     if (this.selectedFiles.length > 1) {
       this.uploadMulti();
     } else {
@@ -60,8 +60,8 @@ export class AlbumDetailComponent implements OnInit {
     const task = this.uploadService.pushUpload(this.currentUpload, this.album.id);
 
     // observe percentage changes
-    this.uploadPercentObservable = task.percentageChanges();
-    this.uploadPercentObservable.subscribe({
+    this.uploadPercentObservable$ = task.percentageChanges();
+    this.uploadPercentObservable$.subscribe({
       next(nb) { this.uploadPercent = nb; },
       complete() {
         this.isUploading = false;
@@ -70,7 +70,7 @@ export class AlbumDetailComponent implements OnInit {
     });
 
     // get notified when the download URL is available
-    this.downloadURL = task.downloadURL();
+    this.downloadURL$ = task.downloadURL();
   }
 
   uploadMulti() {
@@ -78,6 +78,12 @@ export class AlbumDetailComponent implements OnInit {
     for (let i = 0; i < this.selectedFiles.length; i++) {
       this.uploadSingle(i);
     }
+  }
+
+  deleteImageInStorage(img: Image): void {
+    this.albumsAdminService.deleteImage(img)
+      .then(() => console.log('Image deleted'))
+      .catch(reason => console.log(reason));
   }
 
   save() {

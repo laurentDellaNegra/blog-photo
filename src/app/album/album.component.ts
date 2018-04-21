@@ -24,8 +24,9 @@ export class AlbumComponent implements OnInit {
   ngOnInit() {
     this.album$ = this.route.paramMap
       .switchMap((params: ParamMap) => {
-        return this.albumsService.getAlbum(params.get('id'));
+        const albumName = params.get('id');
+        this.imageList$ = this.albumsService.getImagesInDB(albumName);
+        return this.albumsService.getAlbum(albumName);
       });
-    this.imageList$ = this.albumsService.getImages();
   }
 }
