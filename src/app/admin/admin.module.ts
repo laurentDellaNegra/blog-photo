@@ -13,6 +13,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 
 import { UploadService } from './shared/upload.service';
 import { AlbumsAdminService } from './shared/albums-admin.service';
+import { ConvertImageService } from './shared/convert-image.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { AlbumsAdminService } from './shared/albums-admin.service';
   ],
   providers: [
     UploadService,
-    AlbumsAdminService
+    AlbumsAdminService,
+    ConvertImageService
   ]
 })
 export class AdminModule { }
