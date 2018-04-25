@@ -23,9 +23,6 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService) { }
 
   ngOnInit() {
-    this.albums$ = this.route.paramMap
-      .switchMap((params: ParamMap) =>
-        this.albumsService.getAlbums()
-      );
+    this.albums$ = this.albumsService.getAlbums();
   }
 }

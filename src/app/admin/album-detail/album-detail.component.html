@@ -5,7 +5,7 @@
       <div class="input-group">
         <input id="inputName" type="text" class="form-control" placeholder="Entrez le nom de l'album ..." [(ngModel)]="album.name">
         <div class="input-group-append">
-          <span class="input-group-text">id: {{album.id}}</span>
+          <span class="input-group-text">{{album.id}}</span>
         </div>
       </div>
     </div>
@@ -22,9 +22,8 @@
         <label class="custom-file-label" for="inputFile">Choisissez une photo...</label>
       </div>
       <!-- Progress bar -->
-      <!-- <progress style="width:100%" max="100" [value]="(uploadPercentObservable | async)"></progress> -->
-      <div *ngIf="isUploading" class="progress">
-        <div class="progress-bar" role="progressbar" [ngStyle]="{'width': (uploadPercentObservable$ | async) + '%'}">{{uploadPercentObservable$ | async}}%</div>
+      <div *ngIf="isUploading">
+        <ngb-progressbar [showValue]="true" type="info" [value]="(uploadPercent$ | async)"></ngb-progressbar>
       </div>
     </div>
 

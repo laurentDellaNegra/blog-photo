@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { AngularFireStorage } from 'angularfire2/storage';
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 
 import { Upload } from './upload.model';
 import { Image } from '../../shared/image.model';
@@ -20,44 +20,37 @@ export class UploadService {
   private albumsDirectory = '/albums';
   uploads: AngularFireList<Upload[]>;
 
-  pushUpload(upload: Upload, albumName: string): any {
-
-    // create a random id
-    const randomId = Math.random().toString(36).substring(2);
-    const filePath = `${this.imageDirectory}/${albumName}/${randomId}`;
-
+  compress(upload: Upload): any {
     // Compress image
-    return this.convertImageService
-      .compress(upload.file)
-      .then(file => this.angularFireStorage.upload(filePath, file))
-      .then((resp: any) => {
-        const metadata = new Image();
-        metadata.name = resp.metadata.name;
-        metadata.url = resp.metadata.downloadURLs[0];
-        metadata.albumId = albumName;
-        metadata.contentType = resp.metadata.contentType;
-        metadata.type = resp.metadata.type;
-        metadata.fullPath = resp.metadata.fullPath;
-        metadata.size = resp.metadata.size;
-        metadata.bucket = resp.metadata.bucket;
-        metadata.createdAt = resp.metadata.timeCreated;
-        metadata.updatedAt = resp.metadata.updated;
-        return this.saveImagesInDB(albumName, metadata);
-      })
-      .catch(error => console.log(error));
+    return this.convertImageService.compress(upload.file);
   }
 
-  getImages() {
-    console.log(this.angularFireStorage.storage.ref(this.imageDirectory));
+  upload(file, albumId) {
+    // create a random id
+    const randomId = Math.random().toString(36).substring(2);
+    const filePath = `${this.imageDirectory}/${albumId}/${randomId}`;
+    return this.angularFireStorage.upload(filePath, file);
   }
 
   /**
    * Writes the file details to the realtime db
    * @param upload
    */
-  private saveImagesInDB(albumName: string, metadata) {
+  public saveImagesInDB(response: any, albumId: string) {
     // this.angularFireDatabase.list(`${this.basePath}/`).push(upload);
-    this.db.list(this.albumsDirectory).update(`${albumName}/images/${metadata.name}`, metadata).then(() => console.log('Realtime Updated'));
+    const metadata = new Image();
+    metadata.name = response.metadata.name;
+    metadata.url = response.metadata.downloadURLs[0];
+    metadata.albumId = albumId;
+    metadata.contentType = response.metadata.contentType;
+    metadata.type = response.metadata.type;
+    metadata.fullPath = response.metadata.fullPath;
+    metadata.size = response.metadata.size;
+    metadata.bucket = response.metadata.bucket;
+    metadata.createdAt = response.metadata.timeCreated;
+    metadata.updatedAt = response.metadata.updated;
+    return this.db.list(this.albumsDirectory).update(`${albumId}/images/${metadata.name}`, metadata)
+      .then(() => console.log('Realtime Updated'));
   }
 
   /**

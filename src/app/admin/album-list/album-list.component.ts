@@ -3,17 +3,17 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { AlbumsAdminService } from '../shared/albums-admin.service';
+import { AlbumAdminService } from '../shared/album-admin.service';
 import { AlbumsService } from '../../shared/albums.service';
 
 import { Album } from '../../shared/album.model';
 
 @Component({
   selector: 'app-albums',
-  templateUrl: './albums.component.html',
-  styleUrls: ['./albums.component.css']
+  templateUrl: './album-list.component.html',
+  styleUrls: ['./album-list.component.css']
 })
-export class AlbumsComponent implements OnInit {
+export class AlbumListComponent implements OnInit {
 
   public albums$: Observable<any>;
   closeResult: string;
@@ -23,20 +23,17 @@ export class AlbumsComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public albumsService: AlbumsService,
-    public albumsAdminService: AlbumsAdminService,
+    public albumAdminService: AlbumAdminService,
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.albums$ = this.route.paramMap
-      .switchMap((params: ParamMap) =>
-        this.albumsService.getAlbums()
-      );
+    this.albums$ = this.albumsService.getAlbums();
   }
 
   addAlbum(content): void {
     this.openModal(content).then((result) => {
       // TODO: add
-      this.albumsAdminService.addAlbum(this.newAlbumName);
+      this.albumAdminService.addAlbum(this.newAlbumName);
 
       this.closeResult = `Album aoujté: ${this.newAlbumName}`;
       this.newAlbumName = '';
@@ -51,7 +48,7 @@ export class AlbumsComponent implements OnInit {
     this.albumNameToDelete = album.name;
     this.openModal(content)
       .then((result) => {
-        return this.albumsAdminService.deleteAlbum(album);
+        return this.albumAdminService.deleteAlbum(album);
       })
       .then(() => {
         this.closeResult = `Album supprimé: ${this.albumNameToDelete}`;

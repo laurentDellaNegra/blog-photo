@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
 // import { DashboardComponent } from './dashboard/dashboard.component';
-import { AlbumsComponent } from './albums/albums.component';
+import { AlbumListComponent } from './album-list/album-list.component';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import { UserComponent } from './user/user.component';
 import { AuthGuardService } from '../shared/auth-guard.service';
@@ -20,10 +20,10 @@ const adminRoutes: Routes = [
         path: '',
         canActivateChild: [AuthGuardService],
         children: [
-          { path: 'albums', component: AlbumsComponent },
+          { path: 'albums', component: AlbumListComponent },
           { path: 'album-detail/:id', component: AlbumDetailComponent, resolve: { album: AlbumDetailResolver } },
           { path: 'user', component: UserComponent },
-          { path: '', component: AlbumsComponent }
+          { path: '', component: AlbumListComponent }
           // { path: '', component: DashboardComponent }
         ]
       }

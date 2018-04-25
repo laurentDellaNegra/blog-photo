@@ -11,7 +11,7 @@ import { Image } from '../../shared/image.model';
 import { AlbumsService } from '../../shared/albums.service';
 
 @Injectable()
-export class AlbumsAdminService {
+export class AlbumAdminService {
 
   private imageDirectory = '/images';
   private albumDirectory = '/albums';
@@ -22,16 +22,20 @@ export class AlbumsAdminService {
     private albumsService: AlbumsService) { }
 
   public addAlbum(name: string): void {
-    const album = new Album(name);
-    // this.db.list<Album>('albums').push(album);
-    this.db.list<Album>(this.albumDirectory).update(name, album);
+    const album = new Album();
+    album.name = name;
+    this.db.list<Album>('albums').push(album);
   }
 
-  public deleteAlbum(album) {
+  public editAlbum(album: Album): Promise<void> {
+    return this.db.list(this.albumDirectory).update(album.id, album);
+  }
+
+  public deleteAlbum(album: Album): Promise<any> {
     // first delete in DB
     // Second delete in storage
     return this.deleteAlbumInStorage(album)
-      .then(() => this.deleteAlbumInDB(album.name));
+      .then(() => this.deleteAlbumInDB(album.id));
   }
 
   public deleteImage(image: Image) {

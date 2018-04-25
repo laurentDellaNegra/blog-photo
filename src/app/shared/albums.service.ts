@@ -2,7 +2,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 
 import { Album } from './album.model';
 import { Image } from './image.model';
@@ -14,8 +14,18 @@ export class AlbumsService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getAlbums(): Observable<Array<Album>> {
-    return this.db.list<Album>(this.albumDirectory).valueChanges();
+  getAlbums(): Observable<Album[]> {
+    return this.db.list<Album>(this.albumDirectory)
+      .snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.val();
+          const id = a.payload.key;
+          let album = new Album();
+          album = { id, ...data };
+          return album;
+        });
+      });
   }
 
   getAlbum(id: string): Observable<Album> {
@@ -24,8 +34,18 @@ export class AlbumsService {
 
   }
 
-  getImagesInDB(albumName): Observable<Image[]> {
-    return this.db.list<Image>(`${this.albumDirectory}/${albumName}/images`).valueChanges();
+  getImagesInDB(albumId: string): Observable<Image[]> {
+    return this.db.list<Image>(`${this.albumDirectory}/${albumId}/images`)
+      .snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.val();
+          const id = a.payload.key;
+          let image = new Image();
+          image = { id, ...data };
+          return image;
+        });
+      });
   }
 
   getImageInDB(albumName: string, name: string): Observable<Image> {
