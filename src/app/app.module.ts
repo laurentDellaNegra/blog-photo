@@ -23,6 +23,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AlbumsService } from './shared/albums.service';
 import { AuthGuardService } from './shared/auth-guard.service';
 import { AuthService } from './shared/auth.service';
+import { ImageComponent } from './image/image.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { AuthService } from './shared/auth.service';
     LoginComponent,
     AlbumsComponent,
     AlbumComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ImageComponent
   ],
   providers: [
     AuthService,

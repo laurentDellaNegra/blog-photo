@@ -13,57 +13,11 @@
     <div class="container-fluid px-0">
 
       <div class="row no-gutters">
-        <div *ngFor="let img of imageList$ | async; let i = index" class="col-md-3 border">
+        <div *ngFor="let img of imageList$ | async; let i = index" class="col-md-3">
           <div *ngIf="index % 4 === 0" class="w-100"></div>
-          <img [src]="img.url" class="img-fluid" alt="Responsive image">
+          <app-image [url]="img.url"></app-image>
         </div>
       </div>
-
-      <!-- Demo -->
-      <!-- <div class="row no-gutters">
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-      </div>
-
-      <div class="row no-gutters">
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-      </div>
-
-      <div class="row no-gutters">
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col-md-3 border">
-          <img src="http://via.placeholder.com/1000x1000" class="img-fluid" alt="Responsive image">
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
