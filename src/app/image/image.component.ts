@@ -14,9 +14,6 @@ export class ImageComponent implements AfterViewInit {
   constructor(private rd: Renderer2) { }
 
   ngAfterViewInit() {
-    // console.log(this.rd);
-    // console.log(this.el.nativeElement);
-
     this.el.nativeElement.onload = () => this.isLoaded = true;
   }
 

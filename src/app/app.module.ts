@@ -8,6 +8,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Angular2PhotoswipeModule } from 'angular2_photoswipe';
 
 // Component
 import { AppComponent } from './app.component';
@@ -18,12 +19,13 @@ import { LoginComponent } from './login/login.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './album/album.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ImageComponent } from './image/image.component';
 
 // Services
 import { AlbumsService } from './shared/albums.service';
 import { AuthGuardService } from './shared/auth-guard.service';
 import { AuthService } from './shared/auth.service';
-import { ImageComponent } from './image/image.component';
+import { LightboxService } from './shared/lightbox.service';
 
 @NgModule({
   imports: [
@@ -33,7 +35,8 @@ import { ImageComponent } from './image/image.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Angular2PhotoswipeModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -48,6 +51,7 @@ import { ImageComponent } from './image/image.component';
     AuthService,
     AlbumsService,
     AuthGuardService,
+    LightboxService
   ],
   bootstrap: [AppComponent]
 })
