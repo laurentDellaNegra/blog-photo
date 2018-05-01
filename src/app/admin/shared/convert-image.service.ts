@@ -9,7 +9,7 @@ export class ConvertImageService {
   compress(file): Promise<Blob> {
     this.imageCompressor = new ImageCompressor();
     const options = {
-      quality: 0.8
+      quality: 0.6
     };
     return this.imageCompressor.compress(file, options);
   }
