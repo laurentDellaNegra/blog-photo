@@ -1,4 +1,4 @@
-export class Image {
+export class ImageMetadata {
   name: string;
   url: string;
   albumId: string;
@@ -9,6 +9,9 @@ export class Image {
   bucket: string;
   createdAt: string;
   updatedAt: string;
+  src: string;
+  w: number;
+  h: number;
 
   constructor() { }
 }

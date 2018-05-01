@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div *ngIf="album" class="container-fluid">
   <div class="form col-md-12 col-xl-6">
     <div class="form-group">
       <label for="inputName">Nom de l'album</label>
@@ -23,14 +23,15 @@
       </div>
       <!-- Progress bar -->
       <div *ngIf="isUploading">
-        <ngb-progressbar [showValue]="true" type="info" [value]="(uploadPercent$ | async)"></ngb-progressbar>
+        <!-- <ngb-progressbar [showValue]="true" type="info" [value]="(uploadPercent$ | async)"></ngb-progressbar> -->
+        Les photos sont en cours de chargements...
       </div>
     </div>
 
     <div class="form-group">
       <label>Gallerie</label>
       <div class="row no-gutters">
-        <div *ngFor="let img of imageList$ | async; let i = index" class="col-sm-4" style="position: relative">
+        <div *ngFor="let img of imageList; let i = index" class="col-sm-4" style="position: relative">
           <div *ngIf="index % 3 === 0" class="w-100"></div>
           <img [src]="img.url" style="width:150px;">
           <button *ngIf="img" type="button" class="btn btn-danger" (click)="deleteImageInStorage(img)" style="position:absolute;top:2em;left:3em;">

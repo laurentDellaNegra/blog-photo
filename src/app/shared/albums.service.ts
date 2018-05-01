@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 
 import { Album } from './album.model';
-import { Image } from './image.model';
+import { ImageMetadata } from './image-metadata.model';
 
 @Injectable()
 export class AlbumsService {
@@ -34,21 +34,21 @@ export class AlbumsService {
 
   }
 
-  getImagesInDB(albumId: string): Observable<Image[]> {
-    return this.db.list<Image>(`${this.albumDirectory}/${albumId}/images`)
+  getImagesInDB(albumId: string): Observable<ImageMetadata[]> {
+    return this.db.list<ImageMetadata>(`${this.albumDirectory}/${albumId}/images`)
       .snapshotChanges()
       .map(actions => {
         return actions.map(a => {
           const data = a.payload.val();
           const id = a.payload.key;
-          let image = new Image();
+          let image = new ImageMetadata();
           image = { id, ...data };
           return image;
         });
       });
   }
 
-  getImageInDB(albumName: string, name: string): Observable<Image> {
+  getImageInDB(albumName: string, name: string): Observable<ImageMetadata> {
     return this.getImagesInDB(albumName)
       .map(images => images.find(image => image.name === name));
 

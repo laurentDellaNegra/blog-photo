@@ -6,7 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage } from 'angularfire2/storage';
 
 import { Album } from '../../shared/album.model';
-import { Image } from '../../shared/image.model';
+import { ImageMetadata } from '../../shared/image-metadata.model';
 
 import { AlbumsService } from '../../shared/albums.service';
 
@@ -15,7 +15,7 @@ export class AlbumAdminService {
 
   private imageDirectory = '/images';
   private albumDirectory = '/albums';
-  private imageList$: Observable<Image[]>;
+  private imageList$: Observable<ImageMetadata[]>;
 
   constructor(private db: AngularFireDatabase,
     private angularFireStorage: AngularFireStorage,
@@ -28,6 +28,7 @@ export class AlbumAdminService {
   }
 
   public editAlbum(album: Album): Promise<void> {
+    console.log('ALBUM:', album);
     return this.db.list(this.albumDirectory).update(album.id, album);
   }
 
@@ -38,14 +39,14 @@ export class AlbumAdminService {
       .then(() => this.deleteAlbumInDB(album.id));
   }
 
-  public deleteImage(image: Image) {
+  public deleteImage(image: ImageMetadata) {
     // first delete in DB
     // Second delete in storage
     return this.deleteImageInStorage(image.fullPath)
       .then(() => this.deleteImageInDB(image));
   }
 
-  private deleteImageInDB(image: Image): Promise<void> {
+  private deleteImageInDB(image: ImageMetadata): Promise<void> {
     return this.db.object(`${this.albumDirectory}/${image.albumId}/images/${image.name}`).remove();
   }
 
@@ -63,7 +64,7 @@ export class AlbumAdminService {
     // delete images associated in file storage (one by one)
     for (const id in album.images) {
       if (album.images.hasOwnProperty(id)) {
-        const image = <Image>album.images[id];
+        const image = <ImageMetadata>album.images[id];
         promises.push(this.deleteImageInStorage(image.fullPath));
       }
     }

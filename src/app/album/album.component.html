@@ -4,8 +4,8 @@
       <h1 class="jumbotron-heading">{{album.name}}</h1>
       <p class="lead text-muted">{{album.description}}</p>
       <p>
-        <a href="#" class="btn btn-primary my-2">
-          <span class="oi oi-media-play"></span> Lancer le diaporama</a>
+        <button class="btn btn-primary my-2" (click)="openSlideshow()">
+          <span class="oi oi-media-play"></span> Lancer le diaporama</button>
       </p>
     </div>
   </section>
@@ -13,12 +13,12 @@
     <div class="container-fluid px-0">
 
       <div class="row no-gutters">
-        <div *ngFor="let img of imageList$ | async; let i = index" class="col-md-3">
+        <div *ngFor="let img of imageList; let i = index" class="col-md-3">
           <div *ngIf="index % 4 === 0" class="w-100"></div>
-          <app-image [url]="img.url"></app-image>
+          <app-image [url]="img.url" (click)="openSlideshow(i)"></app-image>
         </div>
       </div>
     </div>
   </div>
 </div>
-<lightbox class="item" galleryKey="galleryKey" (imagesLoaded)="imagesLoaded($event)"></lightbox>
+<app-photo-swipe #photoSwipe></app-photo-swipe>

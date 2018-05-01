@@ -19,9 +19,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/photoswipe/dist/photoswipe.css",
+        "../node_modules/photoswipe/dist/default-skin/default-skin.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/photoswipe/dist/photoswipe.js",
+        "../node_modules/photoswipe/dist/photoswipe-ui-default.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireStorage } from 'angularfire2/storage';
 
 import { Album } from '../../shared/album.model';
-import { Image } from '../../shared/image.model';
+import { ImageMetadata } from '../../shared/image-metadata.model';
 import { UploadService } from '../shared/upload.service';
 import { Upload } from '../shared/upload.model';
 
@@ -19,8 +19,7 @@ import { AlbumAdminService } from '../shared/album-admin.service';
 export class AlbumDetailComponent implements OnInit {
 
   album: Album;
-  uploadPercent$: Observable<number>;
-  imageList$: Observable<Image[]>;
+  imageList: ImageMetadata[];
   isUploading = false;
   selectedFiles: FileList;
   currentUpload: Upload;
@@ -36,8 +35,14 @@ export class AlbumDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe((data: { album: Album }) => {
-      this.album = { ...data.album };
-      this.imageList$ = this.albumsService.getImagesInDB(this.album.id);
+      this.albumsService.getAlbum(data.album.id)
+        .subscribe((album: Album) => {
+          this.album = album;
+        });
+      this.albumsService.getImagesInDB(data.album.id)
+        .subscribe((images: ImageMetadata[]) => {
+          this.imageList = images;
+        });
     });
 
   }
@@ -56,19 +61,12 @@ export class AlbumDetailComponent implements OnInit {
     this.currentUpload = new Upload(file);
     this.isUploading = true;
 
-    this.uploadService.compress(this.currentUpload)
-      .then((fileCompressed) => {
-        const task$ = this.uploadService.upload(file, this.album.id);
-        const downloadURL$ = task$.downloadURL();
-        // observe percentage changes
-        this.uploadPercent$ = task$.percentageChanges();
-        this.uploadPercent$.subscribe({
-          complete() {
-            this.isUploading = false;
-          }
-        });
-        task$.then((response) => this.uploadService.saveImagesInDB(response, this.album.id));
+    this.uploadService.upload(this.currentUpload, this.album.id)
+      .then(() => {
+        this.isUploading = false;
+        // this.imageList.push();
       });
+
   }
 
   uploadMulti() {
@@ -78,7 +76,7 @@ export class AlbumDetailComponent implements OnInit {
     }
   }
 
-  deleteImageInStorage(img: Image): void {
+  deleteImageInStorage(img: ImageMetadata): void {
     this.albumAdminService.deleteImage(img)
       .then(() => console.log('Image deleted'))
       .catch(reason => console.log(reason));
@@ -89,5 +87,4 @@ export class AlbumDetailComponent implements OnInit {
       .then(() => console.log('Album updated'))
       .catch(err => console.log(err));
   }
-
 }
