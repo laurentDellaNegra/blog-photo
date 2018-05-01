@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { AlbumsService } from '../shared/albums.service';
+import { Album } from '../shared/album.model';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-albums',
@@ -13,17 +15,21 @@ import { AlbumsService } from '../shared/albums.service';
 export class AlbumsComponent implements OnInit {
 
 
-  public albums$: Observable<any>;
+  public albums: any;
 
   constructor(
     public albumsService: AlbumsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    public authService: AuthService) { }
 
   ngOnInit() {
-    this.albums$ = this.route.paramMap
-      .switchMap((params: ParamMap) =>
-        this.albumsService.getAlbums()
-      );
+    this.albumsService.getAlbums()
+      .subscribe((albums: Album[]) => {
+        this.albums = albums.map((alb: any) => {
+          alb.previewImage = alb.images[Object.keys(alb.images)[0]].url;
+          return alb;
+        });
+      });
   }
 
 }
