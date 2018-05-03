@@ -8,6 +8,8 @@ import { Component, AfterViewInit, Input, ViewChild, ElementRef, Renderer2 } fro
 export class ImageComponent implements AfterViewInit {
 
   @Input() url: string;
+  @Input() clazz: string;
+  @Input() altText: string;
   @ViewChild('img') el: ElementRef;
   isLoaded = false;
 
