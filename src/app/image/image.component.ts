@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { NgProgress } from '@ngx-progressbar/core';
 
 @Component({
   selector: 'app-image',
@@ -13,10 +14,14 @@ export class ImageComponent implements AfterViewInit {
   @ViewChild('img') el: ElementRef;
   isLoaded = false;
 
-  constructor(private rd: Renderer2) { }
+  constructor(private rd: Renderer2,
+    public progress: NgProgress) { }
 
   ngAfterViewInit() {
-    this.el.nativeElement.onload = () => this.isLoaded = true;
+    this.el.nativeElement.onload = () => {
+      this.isLoaded = true;
+      this.progress.complete();
+    };
   }
 
 }
