@@ -12,7 +12,7 @@
       <div *ngFor="let album of albums; let i = index" class="col-md-4">
         <div *ngIf="index % 3 === 0" class="w-100"></div>
         <div class="card mb-4 box-shadow">
-          <img class="card-img-top" [src]="album.previewImage" alt="Responsive image">
+          <app-image [clazz]="'card-img-top'" [url]="album.previewImage" [altText]="'Responsive image'"></app-image>
           <div class="card-body">
             <h6>{{album?.name}}</h6>
             <p class="card-text">{{album?.description}}</p>

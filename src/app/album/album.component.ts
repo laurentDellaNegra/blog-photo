@@ -4,6 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import PhotoSwipe from 'photoswipe';
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default';
+import { NgProgress } from '@ngx-progressbar/core';
 
 import { AlbumsService } from '../shared/albums.service';
 import { ImageMetadata } from '../shared/image-metadata.model';
@@ -23,10 +24,12 @@ export class AlbumComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private albumsService: AlbumsService
+    private albumsService: AlbumsService,
+    public progress: NgProgress
   ) { }
 
   ngOnInit() {
+    this.progress.start();
     this.album$ = this.route.paramMap
       .switchMap((params: ParamMap) => {
         const albumId = params.get('id');
