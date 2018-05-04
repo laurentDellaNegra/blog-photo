@@ -18,7 +18,7 @@ import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
 })
 export class AlbumComponent implements OnInit {
 
-  images = new BehaviorSubject([]);
+  images$ = new BehaviorSubject([]);
 
   public album$: Observable<any>;
   imageList: ImageMetadata[];
@@ -52,7 +52,7 @@ export class AlbumComponent implements OnInit {
   }
 
   openSlideshow(index?: number) {
-    this.photoSwipe.openGallery(this.imageList, index);
+    this.photoSwipe.openGallery(this.images$.getValue(), index);
   }
 
   onScroll() {
@@ -60,8 +60,9 @@ export class AlbumComponent implements OnInit {
   }
 
   private getImages(key?) {
-    console.log('er');
-    if (this.finished) return;
+    if (this.finished) {
+      return;
+    }
     this.albumsService.getImagesInDBPaginated(this.albumId, this.batch + 8, this.lastKey)
       .subscribe(images => {
 
@@ -70,7 +71,7 @@ export class AlbumComponent implements OnInit {
         const newImages = images.slice(0, this.batch);
 
         // Get current images in behavior
-        const currentImages = this.images.getValue();
+        const currentImages = this.images$.getValue();
 
         // If data is identical stop making queries
         if (this.lastKey === newImages[newImages.length - 1]['id']) {
@@ -78,7 +79,7 @@ export class AlbumComponent implements OnInit {
         }
 
         // Concatenate new images to current images
-        this.images.next(currentImages.concat(newImages));
+        this.images$.next(currentImages.concat(newImages));
       });
 
   }
