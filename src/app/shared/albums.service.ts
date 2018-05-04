@@ -49,8 +49,12 @@ export class AlbumsService {
   }
 
   getImagesInDBPaginated(albumId: string, batch, lastKey?) {
-    const query = ref => ref.orderByKey().limitToFirst(batch);
-    if (lastKey) query['startAt'] = lastKey;
+    let query;
+    if (lastKey) {
+      query = ref => ref.startAt(lastKey).orderByKey().limitToFirst(batch);
+    } else {
+      query = ref => ref.orderByKey().limitToFirst(batch);
+    }
     // , ref => ref.orderByKey().limitToFirst(batch)
     return this.db.list(`${this.albumDirectory}/${albumId}/images`, query)
       .snapshotChanges()
