@@ -48,6 +48,23 @@ export class AlbumsService {
       });
   }
 
+  getImagesInDBPaginated(albumId: string, batch, lastKey?) {
+    const query = ref => ref.orderByKey().limitToFirst(batch);
+    if (lastKey) query['startAt'] = lastKey;
+    // , ref => ref.orderByKey().limitToFirst(batch)
+    return this.db.list(`${this.albumDirectory}/${albumId}/images`, query)
+      .snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.val();
+          const id = a.payload.key;
+          let image = new ImageMetadata();
+          image = { id, ...data };
+          return image;
+        });
+      });
+  }
+
   getImageInDB(albumName: string, name: string): Observable<ImageMetadata> {
     return this.getImagesInDB(albumName)
       .map(images => images.find(image => image.name === name));

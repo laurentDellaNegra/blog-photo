@@ -13,7 +13,8 @@
     <div class="container-fluid px-0">
 
       <div class="row no-gutters">
-        <div *ngFor="let img of imageList; let i = index" class="col-md-3">
+        <div *ngFor="let img of images | async; let i = index" class="col-md-3">
+          <!-- <div *ngFor="let img of imageList; let i = index" class="col-md-3"> -->
           <div *ngIf="index % 4 === 0" class="w-100"></div>
           <app-image [url]="img.url" [clazz]="'img-fluid pointer'" [altText]="'Responsive image'" (click)="openSlideshow(i)"></app-image>
         </div>
@@ -22,3 +23,7 @@
   </div>
 </div>
 <app-photo-swipe #photoSwipe></app-photo-swipe>
+<div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000" (scrolled)="onScroll()"></div>
+
+<div *ngIf="!finished">Loading more</div>
+<div *ngIf="finished">End</div>
