@@ -4,12 +4,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 // 3rd party modules
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule, FirebaseOptionsToken, FirebaseAppNameToken, FirebaseAppConfigToken } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgProgressModule } from '@ngx-progressbar/core';
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 // Component
 import { AppComponent } from './app.component';
@@ -35,7 +35,7 @@ import { AuthService } from './shared/auth.service';
     NgbModule.forRoot(),
     NgProgressModule.forRoot(),
     InfiniteScrollModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    // AngularFireModule.initializeApp(environment.firebaseConfig), // Tempo solution : https://github.com/angular/angularfire2/issues/1635
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AppRoutingModule
@@ -53,7 +53,10 @@ import { AuthService } from './shared/auth.service';
   providers: [
     AuthService,
     AlbumsService,
-    AuthGuardService
+    AuthGuardService, // Tempo solution : https://github.com/angular/angularfire2/issues/1635
+    { provide: FirebaseOptionsToken, useValue: environment.firebaseConfig },
+    { provide: FirebaseAppNameToken, useValue: 'stalldata' },
+    { provide: FirebaseAppConfigToken, useValue: undefined }
   ],
   bootstrap: [AppComponent]
 })
