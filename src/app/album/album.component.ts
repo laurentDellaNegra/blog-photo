@@ -39,18 +39,19 @@ export class AlbumComponent implements OnInit {
     this.album$ = this.route.paramMap
       .switchMap((params: ParamMap) => {
         this.albumId = params.get('id');
-        // this.albumsService.getImagesInDB(this.albumId)
-        //   .subscribe((images: ImageMetadata[]) => {
-        //     this.imageList = images;
-        //   });
-
+        // complete list
+        this.albumsService.getImagesInDB(this.albumId)
+          .subscribe((images: ImageMetadata[]) => {
+            this.imageList = images;
+          });
+        // images on scroll
         this.getImages();
         return this.albumsService.getAlbum(this.albumId);
       });
   }
 
   openSlideshow(index?: number) {
-    this.photoSwipe.openGallery(this.images$.getValue(), index);
+    this.photoSwipe.openGallery(this.imageList, index);
   }
 
   onScroll() {
