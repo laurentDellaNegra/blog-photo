@@ -41,7 +41,7 @@ export class AlbumsService {
         return actions.map(a => {
           const data = a.payload.val();
           const id = a.payload.key;
-          let image = new ImageMetadata();
+          let image: any;
           image = { id, ...data };
           return image;
         });
@@ -62,7 +62,7 @@ export class AlbumsService {
         return actions.map(a => {
           const data = a.payload.val();
           const id = a.payload.key;
-          let image = new ImageMetadata();
+          let image: any;
           image = { id, ...data };
           return image;
         });

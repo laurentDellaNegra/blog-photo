@@ -61,10 +61,8 @@ export class AlbumDetailComponent implements OnInit {
     this.currentUpload = new Upload(file);
     this.isUploading = true;
 
-    this.uploadService.upload(this.currentUpload, this.album.id)
-      .then(() => {
-        this.isUploading = false;
-      });
+    this.uploadService.upload(this.currentUpload, this.album.id);
+    this.isUploading = false;
 
   }
 

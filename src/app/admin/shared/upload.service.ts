@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
 
 import { Upload } from './upload.model';
 import { ImageMetadata } from '../../shared/image-metadata.model';
@@ -47,43 +48,96 @@ export class UploadService {
     });
   }
 
+  // uploadOld(upload: Upload, albumId) {
+  //   // create a random id
+  //   const randomId = Math.random().toString(36).substring(2);
+  //   const filePath = `${this.imageDirectory}/${albumId}/${randomId}`;
+  //   return this.compress(upload)
+  //     .then((fileCompressed) => {
+  //       return this.angularFireStorage.upload(filePath, fileCompressed)
+  //         .then((response) => this.saveImagesInDB(response, albumId, fileCompressed.width, fileCompressed.height));
+  //     });
+  // }
+
   upload(upload: Upload, albumId) {
     // create a random id
     const randomId = Math.random().toString(36).substring(2);
     const filePath = `${this.imageDirectory}/${albumId}/${randomId}`;
-    return this.compress(upload)
-      .then((fileCompressed) => {
-        return this.angularFireStorage.upload(filePath, fileCompressed)
-          .then((response) => this.saveImagesInDB(response, albumId, fileCompressed.width, fileCompressed.height));
-      });
+    // file ref in db
+    const fileRef = this.angularFireStorage.ref(filePath);
+
+    this.getWidthAndHeight(upload.file).then((file: any) => {
+      // upload
+      const task = this.angularFireStorage.upload(filePath, file);
+      // observe percentage changes
+      const uploadPercent = task.percentageChanges();
+
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          // const downloadURL = fileRef.getDownloadURL();
+          this.saveImagesInDB(fileRef, albumId, file.width, file.height);
+        })
+      )
+        .subscribe();
+    });
   }
 
   /**
    * Writes the file details to the realtime db
    * @param upload
    */
-  public saveImagesInDB(response: any, albumId: string, width: number, height: number) {
-    // this.angularFireDatabase.list(`${this.basePath}/`).push(upload);
-    console.log(response);
-    const image = new ImageMetadata();
-    image.name = response.metadata.name;
-    image.url = response.metadata.downloadURLs[0];
-    image.albumId = albumId;
-    image.contentType = response.metadata.contentType;
-    image.type = response.metadata.type;
-    image.fullPath = response.metadata.fullPath;
-    image.size = response.metadata.size;
-    image.bucket = response.metadata.bucket;
-    image.createdAt = response.metadata.timeCreated;
-    image.updatedAt = response.metadata.updated;
-    image.src = response.metadata.downloadURLs[0];
-    image.w = width;
-    image.h = height;
-    return this.db.list(this.albumsDirectory).update(`${albumId}/images/${image.name}`, image)
-      .then(() => {
-        console.log('Realtime Updated');
+  public saveImagesInDB(fileRef: AngularFireStorageReference, albumId: string, width: number, height: number) {
+    fileRef.getMetadata().subscribe(metadata => {
+      const image = new ImageMetadata();
+      image.name = metadata.name;
+      image.albumId = albumId;
+      image.contentType = metadata.contentType;
+      image.type = metadata.type;
+      image.fullPath = metadata.fullPath;
+      image.size = metadata.size;
+      image.bucket = metadata.bucket;
+      image.createdAt = metadata.timeCreated;
+      image.updatedAt = metadata.updated;
+      image.w = width;
+      image.h = height;
+      fileRef.getDownloadURL().subscribe(downloadUrl => {
+        image.src = downloadUrl;
+        image.url = downloadUrl;
+        return this.db.list(this.albumsDirectory).update(`${albumId}/images/${image.name}`, image)
+          .then(() => {
+            console.log('Realtime Updated (metadata)');
+          });
       });
+    });
   }
+
+  /**
+   * Writes the file details to the realtime db
+   * @param upload
+   */
+  // public saveImagesInDBOld(response: any, albumId: string, width: number, height: number) {
+  //   console.log(response);
+  //   response.ref.getMetadata().then((metadata) => {
+  //     const image = new ImageMetadata();
+  //     image.name = response.metadata.name;
+  //     image.url = response.metadata.downloadURLs[0];
+  //     image.albumId = albumId;
+  //     image.contentType = response.metadata.contentType;
+  //     image.type = response.metadata.type;
+  //     image.fullPath = response.metadata.fullPath;
+  //     image.size = response.metadata.size;
+  //     image.bucket = response.metadata.bucket;
+  //     image.createdAt = response.metadata.timeCreated;
+  //     image.updatedAt = response.metadata.updated;
+  //     image.src = response.metadata.downloadURLs[0];
+  //     image.w = width;
+  //     image.h = height;
+  //     return this.db.list(this.albumsDirectory).update(`${albumId}/images/${image.name}`, image)
+  //       .then(() => {
+  //         console.log('Realtime Updated');
+  //       });
+  //   });
+  // }
 
   /**
    * Deletes the file details from the realtime db
