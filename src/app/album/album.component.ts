@@ -64,20 +64,23 @@ export class AlbumComponent implements OnInit {
     this.albumsService.getImagesInDBPaginated(this.albumId, this.batch + 8, this.lastKey)
       .subscribe(images => {
 
-        // set the lastkey in preparation for next query
-        this.lastKey = images[images.length - 1]['id'];
-        const newImages = images.slice(0, this.batch);
+        if (images.length) {
 
-        // Get current images in behavior
-        const currentImages = this.images$.getValue();
+          // set the lastkey in preparation for next query
+          this.lastKey = images[images.length - 1]['id'];
+          const newImages = images.slice(0, this.batch);
 
-        // If data is identical stop making queries
-        if (this.lastKey === newImages[newImages.length - 1]['id']) {
-          this.finished = true;
+          // Get current images in behavior
+          const currentImages = this.images$.getValue();
+
+          // If data is identical stop making queries
+          if (this.lastKey === newImages[newImages.length - 1]['id']) {
+            this.finished = true;
+          }
+
+          // Concatenate new images to current images
+          this.images$.next(currentImages.concat(newImages));
         }
-
-        // Concatenate new images to current images
-        this.images$.next(currentImages.concat(newImages));
       });
 
   }

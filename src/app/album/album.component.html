@@ -16,7 +16,7 @@
         <div *ngFor="let img of images$ | async; let i = index" class="col-md-3">
           <!-- <div *ngFor="let img of imageList; let i = index" class="col-md-3"> -->
           <div *ngIf="index % 4 === 0" class="w-100"></div>
-          <app-image [url]="img.url" [clazz]="'img-fluid pointer'" [altText]="'Responsive image'" (click)="openSlideshow(i)"></app-image>
+          <app-image [url]="img.urlThumb" [clazz]="'img-fluid pointer'" [altText]="'Responsive image'" (click)="openSlideshow(i)"></app-image>
         </div>
       </div>
     </div>

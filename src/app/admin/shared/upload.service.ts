@@ -103,6 +103,7 @@ export class UploadService {
       fileRef.getDownloadURL().subscribe(downloadUrl => {
         image.src = downloadUrl;
         image.url = downloadUrl;
+        image.urlThumb = downloadUrl.replace(image.name, `thumb_${image.name}`);
         return this.db.list(this.albumsDirectory).update(`${albumId}/images/${image.name}`, image)
           .then(() => {
             console.log('Realtime Updated (metadata)');

@@ -15,7 +15,7 @@ export const generateThumbnail = functions.storage.object().onFinalize((object) 
   const fileBucket = object.bucket; // The Storage bucket that contains the file.
   const filePath = object.name; // File path in the bucket.
   const contentType = object.contentType; // File content type.
-  const metageneration = object.metageneration; // Number of times metadata has been generated. New objects have a value of 1.
+  // const metageneration = object.metageneration; // Number of times metadata has been generated. New objects have a value of 1.
 
   // Exit if this is triggered on a file that is not an image.
   if (!contentType.startsWith('image/')) {
@@ -42,7 +42,7 @@ export const generateThumbnail = functions.storage.object().onFinalize((object) 
   }).then(() => {
     console.log('Image downloaded locally to', tempFilePath);
     // Generate a thumbnail using ImageMagick.
-    return spawn('convert', [tempFilePath, '-thumbnail', '200x200>', tempFilePath]);
+    return spawn('convert', [tempFilePath, '-thumbnail', '400', tempFilePath]);
   }).then(() => {
     console.log('Thumbnail created at', tempFilePath);
     // We add a 'thumb_' prefix to thumbnails file name. That's where we'll upload the thumbnail.

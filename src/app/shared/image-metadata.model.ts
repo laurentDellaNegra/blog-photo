@@ -1,6 +1,7 @@
 export class ImageMetadata {
   name: string;
   url: string;
+  urlThumb: string;
   albumId: string;
   contentType: string;
   type: string;

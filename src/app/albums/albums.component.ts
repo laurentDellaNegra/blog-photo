@@ -25,11 +25,13 @@ export class AlbumsComponent implements OnInit {
     this.progress.start();
     this.albumsService.getAlbums()
       .subscribe((albums: Album[]) => {
-        this.albums = albums.map((alb: any) => {
-          alb.previewImage = alb.images[Object.keys(alb.images)[0]].url;
-          return alb;
+        if (albums.length) {
+          this.albums = albums.map((alb: any) => {
+            alb.previewImage = alb.images[Object.keys(alb.images)[0]].urlThumb;
+            return alb;
+          }
+          );
         }
-        );
       });
   }
 
