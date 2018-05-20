@@ -1,6 +1,5 @@
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -8,18 +7,16 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { Album } from '../../shared/album.model';
 import { ImageMetadata } from '../../shared/image-metadata.model';
 
-import { AlbumsService } from '../../shared/albums.service';
+// import { AlbumsService } from '../../shared/albums.service';
 
 @Injectable()
 export class AlbumAdminService {
 
-  private imageDirectory = '/images';
+  // private imageDirectory = '/images';
   private albumDirectory = '/albums';
-  private imageList$: Observable<ImageMetadata[]>;
 
   constructor(private db: AngularFireDatabase,
-    private angularFireStorage: AngularFireStorage,
-    private albumsService: AlbumsService) { }
+    private angularFireStorage: AngularFireStorage) { }
 
   public addAlbum(name: string): void {
     const album = new Album();

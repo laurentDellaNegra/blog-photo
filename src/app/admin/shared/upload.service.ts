@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from 'angularfire2/storage';
+import { AngularFireStorage, AngularFireStorageReference } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
 
 import { Upload } from './upload.model';
@@ -70,7 +70,7 @@ export class UploadService {
       // upload
       const task = this.angularFireStorage.upload(filePath, file);
       // observe percentage changes
-      const uploadPercent = task.percentageChanges();
+      // const uploadPercent = task.percentageChanges();
 
       task.snapshotChanges().pipe(
         finalize(() => {
@@ -143,7 +143,7 @@ export class UploadService {
    * Deletes the file details from the realtime db
    * @param key
    */
-  private deleteImageInDB(albumName: string, imageName: string) {
-    return this.db.list(`${this.albumsDirectory}/${albumName}`).remove(imageName);
-  }
+  // public deleteImageInDB(albumName: string, imageName: string) {
+  //   return this.db.list(`${this.albumsDirectory}/${albumName}`).remove(imageName);
+  // }
 }

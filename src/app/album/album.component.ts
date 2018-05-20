@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { BehaviorSubject, Observable } from 'rxjs';
-import PhotoSwipe from 'photoswipe';
-import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default';
+// import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default';
 import { NgProgress } from '@ngx-progressbar/core';
 
 import { AlbumsService } from '../shared/albums.service';

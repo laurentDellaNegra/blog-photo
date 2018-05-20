@@ -2,7 +2,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Album } from './album.model';
 import { ImageMetadata } from './image-metadata.model';
