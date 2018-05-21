@@ -20,6 +20,7 @@ export class AlbumComponent implements OnInit {
 
   public album$: Observable<any>;
   imageList: ImageMetadata[];
+  arrays: Array<ImageMetadata[]>;
   albumId: string;
 
   batch = 8; // size of each query
@@ -40,25 +41,40 @@ export class AlbumComponent implements OnInit {
       .switchMap((params: ParamMap) => {
         this.albumId = params.get('id');
         // complete list
-        this.albumsService.getImagesInDB(this.albumId)
-          .subscribe((images: ImageMetadata[]) => {
-            this.imageList = images;
-          });
-        // images on scroll
         this.getImages();
+        // images on scroll
+        this.getImagesPaginated();
         return this.albumsService.getAlbum(this.albumId);
       });
   }
 
-  openSlideshow(index?: number) {
+  openSlideshow(img?: any) {
+    const index = this.imageList.indexOf(img);
     this.photoSwipe.openGallery(this.imageList, index);
   }
 
   onScroll() {
-    this.getImages();
+    this.getImagesPaginated();
   }
 
-  private getImages(key?) {
+  private getImages() {
+    this.albumsService.getImagesInDB(this.albumId)
+      .subscribe((images: ImageMetadata[]) => {
+        this.imageList = images;
+        this.arrays = this.createGroupedArray(images, 4);
+      });
+  }
+
+  private createGroupedArray(arr, parts) {
+    const groups = [];
+    const chunkSize = arr.length / parts;
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      groups.push(arr.slice(i, i + chunkSize));
+    }
+    return groups;
+  }
+
+  private getImagesPaginated(key?) {
     if (this.finished) {
       return;
     }
