@@ -66,16 +66,15 @@ export class UploadService {
     // file ref in db
     const fileRef = this.angularFireStorage.ref(filePath);
 
-    this.getWidthAndHeight(upload.file).then((file: any) => {
+    return this.compress(upload).then((fileCompressed) => {
       // upload
-      const task = this.angularFireStorage.upload(filePath, file);
+      const task = this.angularFireStorage.upload(filePath, fileCompressed);
       // observe percentage changes
       // const uploadPercent = task.percentageChanges();
-
       task.snapshotChanges().pipe(
         finalize(() => {
           // const downloadURL = fileRef.getDownloadURL();
-          this.saveImagesInDB(fileRef, albumId, file.width, file.height);
+          this.saveImagesInDB(fileRef, albumId, fileCompressed.width, fileCompressed.height);
         })
       )
         .subscribe();
