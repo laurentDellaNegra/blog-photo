@@ -4,5 +4,6 @@ img.loaded {
 }
 
 img {
-	opacity: 0;
+  opacity: 0;
+  width: 100%;
 }
