@@ -39,7 +39,7 @@ export class AlbumAdminService {
   public deleteImage(image: ImageMetadata) {
     // first delete in DB
     // Second delete in storage
-    return this.deleteImageInStorage(image.fullPath)
+    return this.deleteImageInStorage(image)
       .then(() => this.deleteImageInDB(image));
   }
 
@@ -62,14 +62,19 @@ export class AlbumAdminService {
     for (const id in album.images) {
       if (album.images.hasOwnProperty(id)) {
         const image = <ImageMetadata>album.images[id];
-        promises.push(this.deleteImageInStorage(image.fullPath));
+        promises.push(this.deleteImageInStorage(image));
       }
     }
     return Promise.all(promises);
   }
 
-  private deleteImageInStorage(path: string): Promise<any> {
+  private deleteImageInStorage(image: ImageMetadata): Promise<any> {
     const storageRef = this.angularFireStorage.storage.ref();
-    return storageRef.child(path).delete();
+    const imagePath = image.fullPath;
+    const imageThumbPath = image.fullPath.replace(image.name, `thumb_${image.name}`);
+    // TODO: chain
+    storageRef.child(imageThumbPath).delete();
+    // Delete image
+    return storageRef.child(image.fullPath).delete();
   }
 }
