@@ -33,10 +33,12 @@
       <div class="row no-gutters">
         <div *ngFor="let img of imageList; let i = index" class="col-sm-4" style="position: relative">
           <div *ngIf="index % 3 === 0" class="w-100"></div>
-          <img [src]="img.url" style="width:150px;">
-          <button *ngIf="img" type="button" class="btn btn-danger" (click)="deleteImageInStorage(img)" style="position:absolute;top:2em;left:3em;">
-            <span class="oi oi-trash"></span>
-          </button>
+          <div (mouseenter)="displayButton=true" (mouseleave)="displayButton=false">
+            <img [src]="img.urlThumb" style="width:150px;">
+            <button *ngIf="img && displayButton" type="button" class="btn btn-danger" (click)="deleteImageInStorage(img)" style="position:absolute;top:2em;left:3em;">
+              <span class="oi oi-trash"></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
