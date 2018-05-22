@@ -9,6 +9,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgProgressModule } from '@ngx-progressbar/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 // Component
 import { AppComponent } from './app.component';
@@ -33,6 +34,7 @@ import { AuthService } from './shared/auth.service';
     FormsModule,
     NgbModule.forRoot(),
     NgProgressModule.forRoot(),
+    InfiniteScrollModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,

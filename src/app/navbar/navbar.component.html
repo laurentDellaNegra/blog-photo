@@ -17,18 +17,18 @@
 
       <!-- Dynamic countries -->
       <li *ngFor="let album of albums$ | async" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/album/', album.id]">{{album.name}}</a>
+        <a (click)="isNavbarCollapsed = true" class="nav-link" [routerLink]="['/album/', album.id]">{{album.name}}</a>
       </li>
     </ul>
 
     <ul class="navbar-nav">
       <li *ngIf="authService.isAuthorized()" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/admin">
+        <a (click)="isNavbarCollapsed = true" class="nav-link" routerLink="/admin">
           <span class="oi oi-cog" title="icon terminal" aria-hidden="true">&nbsp;&nbsp;</span>Administration</a>
       </li>
 
       <li class="nav-item">
-        <a class="btn btn-outline-light" routerLinkActive="active" routerLink="/login">
+        <a (click)="isNavbarCollapsed = true" class="btn btn-outline-light" routerLinkActive="active" routerLink="/login">
           <span class="oi oi-person"></span>
         </a>
       </li>

@@ -1,6 +1,5 @@
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -8,18 +7,16 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { Album } from '../../shared/album.model';
 import { ImageMetadata } from '../../shared/image-metadata.model';
 
-import { AlbumsService } from '../../shared/albums.service';
+// import { AlbumsService } from '../../shared/albums.service';
 
 @Injectable()
 export class AlbumAdminService {
 
-  private imageDirectory = '/images';
+  // private imageDirectory = '/images';
   private albumDirectory = '/albums';
-  private imageList$: Observable<ImageMetadata[]>;
 
   constructor(private db: AngularFireDatabase,
-    private angularFireStorage: AngularFireStorage,
-    private albumsService: AlbumsService) { }
+    private angularFireStorage: AngularFireStorage) { }
 
   public addAlbum(name: string): void {
     const album = new Album();
@@ -42,7 +39,7 @@ export class AlbumAdminService {
   public deleteImage(image: ImageMetadata) {
     // first delete in DB
     // Second delete in storage
-    return this.deleteImageInStorage(image.fullPath)
+    return this.deleteImageInStorage(image)
       .then(() => this.deleteImageInDB(image));
   }
 
@@ -65,14 +62,19 @@ export class AlbumAdminService {
     for (const id in album.images) {
       if (album.images.hasOwnProperty(id)) {
         const image = <ImageMetadata>album.images[id];
-        promises.push(this.deleteImageInStorage(image.fullPath));
+        promises.push(this.deleteImageInStorage(image));
       }
     }
     return Promise.all(promises);
   }
 
-  private deleteImageInStorage(path: string): Promise<any> {
+  private deleteImageInStorage(image: ImageMetadata): Promise<any> {
     const storageRef = this.angularFireStorage.storage.ref();
-    return storageRef.child(path).delete();
+    const imagePath = image.fullPath;
+    const imageThumbPath = image.fullPath.replace(image.name, `thumb_${image.name}`);
+    // TODO: chain
+    storageRef.child(imageThumbPath).delete();
+    // Delete image
+    return storageRef.child(image.fullPath).delete();
   }
 }

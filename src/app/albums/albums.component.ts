@@ -1,7 +1,5 @@
 import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgProgress } from '@ngx-progressbar/core';
 
 import { AlbumsService } from '../shared/albums.service';
@@ -15,12 +13,10 @@ import { AuthService } from '../shared/auth.service';
 })
 export class AlbumsComponent implements OnInit {
 
-
   public albums: any;
 
   constructor(
     public albumsService: AlbumsService,
-    private route: ActivatedRoute,
     public authService: AuthService,
     public progress: NgProgress
   ) { }
@@ -29,11 +25,13 @@ export class AlbumsComponent implements OnInit {
     this.progress.start();
     this.albumsService.getAlbums()
       .subscribe((albums: Album[]) => {
-        this.albums = albums.map((alb: any) => {
-          alb.previewImage = alb.images[Object.keys(alb.images)[0]].url;
-          return alb;
+        if (albums.length) {
+          this.albums = albums.map((alb: any) => {
+            alb.previewImage = alb.images[Object.keys(alb.images)[0]].urlThumb;
+            return alb;
+          }
+          );
         }
-        );
       });
   }
 

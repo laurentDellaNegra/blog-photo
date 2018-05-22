@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { AlbumsService } from '../shared/albums.service';
 import { AuthService } from '../shared/auth.service';

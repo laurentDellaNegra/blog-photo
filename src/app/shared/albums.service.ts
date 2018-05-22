@@ -1,8 +1,8 @@
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
+import { Observable } from 'rxjs';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Album } from './album.model';
 import { ImageMetadata } from './image-metadata.model';
@@ -41,7 +41,28 @@ export class AlbumsService {
         return actions.map(a => {
           const data = a.payload.val();
           const id = a.payload.key;
-          let image = new ImageMetadata();
+          let image: any;
+          image = { id, ...data };
+          return image;
+        });
+      });
+  }
+
+  getImagesInDBPaginated(albumId: string, batch, lastKey?) {
+    let query;
+    if (lastKey) {
+      query = ref => ref.startAt(lastKey).orderByKey().limitToFirst(batch);
+    } else {
+      query = ref => ref.orderByKey().limitToFirst(batch);
+    }
+    // , ref => ref.orderByKey().limitToFirst(batch)
+    return this.db.list(`${this.albumDirectory}/${albumId}/images`, query)
+      .snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.val();
+          const id = a.payload.key;
+          let image: any;
           image = { id, ...data };
           return image;
         });

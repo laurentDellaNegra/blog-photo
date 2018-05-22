@@ -1,7 +1,8 @@
-// Only authenticated users can read or write to the bucket
+// Only authenticated users can write to the bucket
 service firebase.storage {
   match /b/{bucket}/o {
     match /{allPaths=**} {
+      allow read: if true;
       allow write: if request.auth != null;
     }
   }

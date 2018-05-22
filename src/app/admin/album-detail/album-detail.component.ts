@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireStorage } from 'angularfire2/storage';
+import { ActivatedRoute } from '@angular/router';
 
 import { Album } from '../../shared/album.model';
 import { ImageMetadata } from '../../shared/image-metadata.model';
@@ -26,8 +24,6 @@ export class AlbumDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private storage: AngularFireStorage,
     private uploadService: UploadService,
     private albumsService: AlbumsService,
     private albumAdminService: AlbumAdminService
@@ -61,15 +57,13 @@ export class AlbumDetailComponent implements OnInit {
     this.currentUpload = new Upload(file);
     this.isUploading = true;
 
-    this.uploadService.upload(this.currentUpload, this.album.id)
-      .then(() => {
-        this.isUploading = false;
-      });
+    this.uploadService.upload(this.currentUpload, this.album.id);
+    this.isUploading = false;
 
   }
 
   uploadMulti() {
-    const files = this.selectedFiles;
+    // const files = this.selectedFiles;
     for (let i = 0; i < this.selectedFiles.length; i++) {
       this.uploadSingle(i);
     }
